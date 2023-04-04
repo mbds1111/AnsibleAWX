@@ -1,0 +1,9 @@
+- name: Tools Agent Installation
+  hosts: all
+  tasks:
+    - name: Hello Message
+      debug:
+        msg: "OMI Agent Installation!!"
+    - name: Run installOMI script on target host
+        win_shell: C:\\sungard_files\\Scripts\\installOMI.ps1
+        
