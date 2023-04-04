@@ -5,5 +5,5 @@
       debug:
         msg: "OMI Agent Installation!!"
     - name: Run installOMI script on target host
-        win_shell: C:\\sungard_files\\Scripts\\installOMI.ps1
+      win_shell: C:\sungard_files\Scripts\installOMI.ps1
         
