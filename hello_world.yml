@@ -7,5 +7,5 @@
     - name: Copy install OMI powershell script on to target
       win_copy: 
         src: "/tmp/script/installOMI.ps1"
-        dest: C:\sungard_files
+        dest: C:\sungard_files\
         
