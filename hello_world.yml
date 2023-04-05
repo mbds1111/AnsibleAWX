@@ -6,7 +6,7 @@
         msg: "Hello World"
     - name: Copy install OMI powershell script on to target
       win_copy: 
-        src: /scripts/installOMI.ps1
+        src: scripts/installOMI.ps1
         dest: 'C:\sungard_files\'
         remote_src: no
         
