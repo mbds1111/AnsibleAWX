@@ -9,8 +9,8 @@
         src: scripts/installOMI.ps1
         dest: 'C:\sungard_files\'
         remote_src: no
-    -name: Download file specified path
-     ansible.windows.win_get_url:
+    - name: Download file specified path
+      ansible.windows.win_get_url:
         url: http://10.146.62.136/nessus/windows/NessusAgent-10.3.1-x64.msi
         dest: C:\sungard_files\NessusAgent-10.3.1-x64.msi
         
