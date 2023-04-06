@@ -6,11 +6,6 @@
         msg: "Hello World"
     - name: Copy install OMI powershell script on to target
       win_copy: 
-        src: scripts/installOMI.ps1
-        dest: 'C:\sungard_files\'
+        src: files/scripts
+        dest: 'C:\sungard_files\scripts\'
         remote_src: no
-    - name: Download file specified path
-      ansible.windows.win_get_url:
-        url: http://10.146.62.136/nessus/windows/NessusAgent-10.3.1-x64.msi
-        dest: C:\sungard_files\NessusAgent-10.3.1-x64.msi
-        
