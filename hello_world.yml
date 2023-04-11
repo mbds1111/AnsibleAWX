@@ -4,8 +4,8 @@
     - name: Hello Message
       debug:
         msg: "Hello World"
-    - name: Copy install OMI powershell script on to target
+    - name: copy file from UNC path
       win_copy: 
-        src: files/scripts/OMIScripts
+        src: \\phl2gmnpru02.oamp.sgns.net\Software\Provisioning\HPE_Tools\UD_Agent\ud_agents_11.60.zip
         dest: 'C:\sungard_files\'
-        remote_src: no
+        remote_src: True
