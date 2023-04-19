@@ -6,6 +6,6 @@
         msg: "Hello World"
     - name: copy file from UNC path
       win_copy: 
-        src: \\phl2gmnpru02.oamp.sgns.net\Software\Provisioning\HPE_Tools\UD_Agent\ud_agents_11.60.zip
+        src: \\awxfs.tools.sgns.net\test\Agents\
         dest: 'C:\sungard_files\'
         remote_src: True
