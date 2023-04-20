@@ -6,7 +6,7 @@
         msg: "Hello World"
     - name: Check C:\sungard_files\OMI\ directory and create if not exist.
       ansible.windows.win_file:
-        path: C:\sungard_files\OMI\
+        path: C:\sungard_files\OMI
         state: touch
         
     - name: copy file from url and unarchive to OMI
