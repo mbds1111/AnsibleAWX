@@ -18,8 +18,6 @@
         url_password: Sparrow.34
         
     - name: Unarchive to OMI folder
-      community.windows.win_unzip:
-        src: 'C:\sungard_files\OMI\HPEOpsBAgent_Windows_12.20.05_BASE.zip'
-        dest: 'C:\sungard_files\OMI\'
-        delete_archive: yes
-    
+      ansible.windows.win_powershell:
+        script: |
+          Expand-Archive -Path "C:\sungard_files\OMI\HPEOpsBAgent_Windows_12.20.05_BASE.zip" -DestinationPath "C:\sungard_files\OMI" -Force   
