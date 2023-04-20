@@ -1,0 +1,11 @@
+- name: Tools Agent Installation
+  hosts: all
+  tasks:
+    - name: Hello Message
+      debug:
+        msg: "Hello User"
+    - name: Unarchive to OMI folder
+      community.windows.win_unzip:
+        src: 'C:\sungard_files\OMI\HPEOpsBAgent_Windows_12.20.05_BASE.zip'
+        dest: 'C:\sungard_files\OMI\'
+    
