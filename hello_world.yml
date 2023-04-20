@@ -21,5 +21,5 @@
       community.windows.win_unzip:
         src: 'C:\sungard_files\OMI\HPEOpsBAgent_Windows_12.20.05_BASE.zip'
         dest: 'C:\sungard_files\OMI\'
-        recurse: yes
         delete_archive: yes
+    
