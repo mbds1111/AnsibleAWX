@@ -1,0 +1,25 @@
+- name: OMI Tool Agent Installation
+  hosts: all
+  tasks:
+    - name: Print Message
+      debug:
+        msg: "OMI Agent Installation!!"
+    
+    - name: Check for /tmp/OMI directory and create if not exist.
+      ansible.builtin.file:
+        path: /tmp/OMI
+        state: directory
+        mode: '0755'
+        
+    - name: Copy OM Installer package from url
+      ansible.builtin.get_url:
+        url: https://awxfs.tools.sgns.net/test/Agents/12.23_oa_media_Linux3.10_X64.zip
+        dest: /tmp/OMI
+        url_username: mahendra.ds
+        url_password: Sparrow.34
+        
+   - name: Unarchive to OMI folder
+      unarchive: 
+        src: /tmp/OMI/12.23_oa_media_Linux3.10_X64.zip
+        dest: /tmp/OMI
+        
