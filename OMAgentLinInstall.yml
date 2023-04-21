@@ -5,12 +5,23 @@
       debug:
         msg: "OMI Agent Installation!!"
     
-    - name: Check for /tmp/OMI directory and create if not exist.
-      ansible.builtin.file:
+    - name: Check for /tmp/OMI directory.
+      stat:
+        path: /tmp/OMI
+        register: myDir
+       
+    - name: echo if the directory already exist
+      debug:
+        msg: "/tmp/OMI directory is already exist."
+      when: myDir.stat.exists
+     
+    - name: Create /tmp/OMI directory if not exists 
+      file:
         path: /tmp/OMI
         state: directory
         mode: '0755'
-        
+      when: myDir.stat.exists == false
+      
     - name: Copy OM Installer package from url
       ansible.builtin.get_url:
         url: https://awxfs.tools.sgns.net/test/Agents/12.23_oa_media_Linux3.10_X64.zip
