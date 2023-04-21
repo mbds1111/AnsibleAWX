@@ -17,9 +17,8 @@
         dest: /tmp/OMI
         url_username: mahendra.ds
         url_password: Sparrow.34
-        
-   - name: Unarchive to OMI folder
+    
+    - name: Unarchive to OMI folder
       unarchive: 
         src: /tmp/OMI/12.23_oa_media_Linux3.10_X64.zip
-        dest: /tmp/OMI
-        
+        dest: /tmp/OMI    
