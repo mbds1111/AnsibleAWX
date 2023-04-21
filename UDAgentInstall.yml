@@ -29,7 +29,7 @@
         remote_src: no
         
     - name: Run udAgentInstall script on target host
-      win_shell: C:\\sungard_files\\UD\\udAgentInstall.ps1 -probe_ip {{ probeIp }}
+      win_shell: C:\\sungard_files\\UD\\UDScripts\\udAgentInstall.ps1 -probe_ip {{ probeIp }}
       register: result1
       
     - name: print installOMI script output
