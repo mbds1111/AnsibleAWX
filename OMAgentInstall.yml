@@ -25,7 +25,7 @@
     - name: Copy install OMI powershell scripts on to target
       win_copy: 
         src: files/scripts/OMIScripts
-        dest: 'C:\sungard_files\OMI'
+        dest: 'C:\sungard_files\OMI\'
         remote_src: no
     
     - name: Run installOMI script on target host
