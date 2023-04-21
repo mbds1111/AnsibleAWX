@@ -26,8 +26,8 @@
       ansible.builtin.get_url:
         url: https://awxfs.tools.sgns.net/test/Agents/12.23_oa_media_Linux3.10_X64.zip
         dest: /tmp/OMI
-        url_username: mahendra.ds
-        url_password: Sparrow.34
+        username: mahendra.ds
+        password: Sparrow.34
     
     - name: Unarchive to OMI folder
       unarchive: 
