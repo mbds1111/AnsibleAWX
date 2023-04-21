@@ -8,7 +8,7 @@
     - name: Check for /tmp/OMI directory.
       stat:
         path: /tmp/OMI
-        register: myDir
+      register: myDir
        
     - name: echo if the directory already exist
       debug:
