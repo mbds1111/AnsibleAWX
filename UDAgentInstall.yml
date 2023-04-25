@@ -5,12 +5,12 @@
       debug:
         msg: "UD Agent Installation!!"
     
-    - name: Check for omi directory and create if not exist.
+    - name: Check for UD directory and create if not exist.
       ansible.windows.win_file:
         path: C:\sungard_files\UD
         state: directory
         
-    - name: copy OM Installer package from url
+    - name: copy UD Installer package from url
       ansible.windows.win_get_url:
         url: https://awxfs.tools.sgns.net/test/Agents/UDAgent_11.60-upgrade.zip
         dest: 'C:\sungard_files\UD\'
@@ -25,7 +25,7 @@
     - name: Copy install UD powershell scripts on to target
       win_copy: 
         src: files/scripts/UDScripts
-        dest: 'C:\sungard_files\UD\'
+        dest: 'C:\sungard_files\UD'
         remote_src: no
         
     - name: Run udAgentInstall script on target host
@@ -35,3 +35,8 @@
     - name: print installOMI script output
       debug:
         msg: "Script output is: {{ result1 }}"
+    
+    - name: Cleanup packages and scripts 
+      ansible.windows.win_powershell:
+        script: |
+          Remove-Item -Path C:\sungard_files\UD -Recurse -verbose
