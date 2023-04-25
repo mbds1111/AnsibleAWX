@@ -14,8 +14,8 @@
       ansible.windows.win_get_url:
         url: https://awxfs.tools.sgns.net/test/Agents/HPEOpsBAgent_Windows_12.20.05_BASE.zip
         dest: 'C:\sungard_files\OMI\'
-        url_username: mahendra.ds
-        url_password: Sparrow.34
+        url_username: "{{ Mirror_UN }}"
+        url_password: "{{ Mirror_PW }}"
      
     - name: Unarchive to OMI folder
       ansible.windows.win_powershell:
