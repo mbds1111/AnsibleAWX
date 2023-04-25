@@ -14,8 +14,8 @@
       ansible.windows.win_get_url:
         url: https://awxfs.tools.sgns.net/test/Agents/UDAgent_11.60-upgrade.zip
         dest: 'C:\sungard_files\UD\'
-        url_username: mahendra.ds
-        url_password: Sparrow.34
+        url_username: "{{ Mirror_UN }}"
+        url_password: "{{ Mirror_PW }}"
      
     - name: Unarchive to UD folder
       ansible.windows.win_powershell:
