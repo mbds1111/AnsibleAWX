@@ -51,3 +51,8 @@
     - name: print ValidateOMIStatus script output
       debug:
         msg: "Script output is: {{ result3 }}"
+        
+    - name: Cleanup packages and scripts 
+      ansible.windows.win_powershell:
+        script: |
+          Remove-Item -Path C:\sungard_files\OMI -Recurse -verbose
