@@ -33,8 +33,7 @@
       unarchive: 
         src: /tmp/OMI/12.23_oa_media_Linux3.10_X64.zip
         dest: /tmp/OMI
-        
-        
+       
     - name: Copy install OMI scripts on to target
       copy: 
         src: files/scripts/OMIScripts
@@ -42,7 +41,7 @@
         remote_src: no
         mode: '0755'
     
-    -name: set OMI directory permissions
+    - name: set OMI directory permissions
      command: chmod -R 755 /tmp/OMI  
     
     - name: Run OMAgentLinuxInstall script on target host
