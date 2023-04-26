@@ -32,5 +32,37 @@
     - name: Unarchive to OMI folder
       unarchive: 
         src: /tmp/OMI/12.23_oa_media_Linux3.10_X64.zip
-        dest: /tmp/OMI 
+        dest: /tmp/OMI
+        
+        
+    - name: Copy install OMI scripts on to target
+      copy: 
+        src: files/scripts/OMIScripts
+        dest: /tmp/OMI
+        remote_src: no
+        mode: '0755'
     
+    -name: set OMI directory permissions
+     command: chmod -R 755 /tmp/OMI  
+    
+    - name: Run OMAgentLinuxInstall script on target host
+      command: sh /tmp/OMI/OMIScripts/OMAgentLinuxInstall.sh {{ mgmtIp }} {{ sntCode }}
+      register: result1
+       
+    - name: print OMAgentLinuxInstall script output
+      debug:
+        msg: "Script output is: {{ result1 }}"
+        
+    - name: Run OMAgnetLinuxValidation script on target host
+      command: sh /tmp/OMI/OMIScripts/OMAgnetLinuxValidation.sh
+      register: result2
+       
+    - name: print OMAgnetLinuxValidation script output
+      debug:
+        msg: "Script output is: {{ result2 }}"
+     
+    - name: Cleanup packages and scripts
+      ansible.builtin.file:
+        path: /tmp/OMI
+        state: absent
+     
