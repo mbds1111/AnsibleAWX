@@ -29,11 +29,6 @@
         username: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
     
-    - name: Unarchive to OMI folder
-      unarchive: 
-        src: /tmp/OMI/12.23_oa_media_Linux3.10_X64.zip
-        dest: /tmp/OMI
-       
     - name: Copy install OMI scripts on to target
       copy: 
         src: files/scripts/OMIScripts
@@ -44,6 +39,11 @@
     - name: set OMI directory permissions
       command: chmod -R 755 /tmp/OMI  
     
+    - name: Unarchive to OMI folder
+      unarchive: 
+        src: /tmp/OMI/12.23_oa_media_Linux3.10_X64.zip
+        dest: /tmp/OMI
+        
     - name: Run OMAgentLinuxInstall script on target host
       command: sh /tmp/OMI/OMIScripts/OMAgentLinuxInstall.sh {{ mgmtIp }} {{ sntCode }}
       register: result1
