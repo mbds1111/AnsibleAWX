@@ -42,7 +42,7 @@
         mode: '0755'
     
     - name: set OMI directory permissions
-     command: chmod -R 755 /tmp/OMI  
+      command: chmod -R 755 /tmp/OMI  
     
     - name: Run OMAgentLinuxInstall script on target host
       command: sh /tmp/OMI/OMIScripts/OMAgentLinuxInstall.sh {{ mgmtIp }} {{ sntCode }}
