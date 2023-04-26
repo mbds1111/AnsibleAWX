@@ -49,8 +49,8 @@
         remote_src: no
         mode: '0755'
     
-    -name: set udagent directory permissions
-     command: chmod -R 755 /opt/HP/udagent
+    - name: set udagent directory permissions
+      command: chmod -R 755 /opt/HP/udagent
     
     - name: Run UDAgentLinuxInstall script on target host
       command: sh /opt/HP/udagent/UDScripts/UDAgentLinuxInstall.sh {{ probeIp }}
