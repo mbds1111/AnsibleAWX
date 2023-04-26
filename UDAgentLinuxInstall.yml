@@ -1,0 +1,67 @@
+- name: UD Tool Agent Installation
+  hosts: all
+  tasks:
+    - name: Print Message
+      debug:
+        msg: "UD Agent Installation!!"
+    
+    - name: Check for /opt/HP/udagent directory.
+      stat:
+        path: /opt/HP/udagent
+      register: myDir
+       
+    - name: echo if the directory already exist
+      debug:
+        msg: "/opt/HP/udagent directory is already exist."
+      when: myDir.stat.exists
+     
+    - name: Create /opt/HP/udagent directory if not exists 
+      file:
+        path: /opt/HP/udagent
+        state: directory
+        mode: '0755'
+      when: myDir.stat.exists == false
+      
+    - name: Copy UD Installer package from url
+      ansible.builtin.get_url:
+        url: "{{ item }}"
+        dest: /opt/HP/udagent
+        username: "{{ Mirror_UN }}"
+        password: "{{ Mirror_PW }}"
+      loop: 
+        - https://awxfs.tools.sgns.net/test/Agents/agentinstall_unix.zip
+        - https://awxfs.tools.sgns.net/test/Agents/certs.zip
+        - https://awxfs.tools.sgns.net/test/Agents/hp-ud-agent-linux.zip
+    
+    - name: Unarchive to udagent directory
+      unarchive: 
+        src: /opt/HP/udagent/"{{ item }}"
+        dest: /opt/HP/udagent
+      with_items:
+        - agentinstall_unix.zip
+        - certs.zip
+        - hp-ud-agent-linux.zip
+        
+    - name: Copy install UD scripts on to target
+      copy: 
+        src: files/scripts/UDScripts
+        dest: /opt/HP/udagent
+        remote_src: no
+        mode: '0755'
+    
+    -name: set udagent directory permissions
+     command: chmod -R 755 /opt/HP/udagent
+    
+    - name: Run UDAgentLinuxInstall script on target host
+      command: sh /opt/HP/udagent/UDScripts/UDAgentLinuxInstall.sh {{ probeIp }}
+      register: result1
+       
+    - name: print UDAgentLinuxInstall script output
+      debug:
+        msg: "Script output is: {{ result1 }}"
+        
+    - name: Cleanup packages and scripts
+      ansible.builtin.file:
+        path: /opt/HP/udagent
+        state: absent
+     
