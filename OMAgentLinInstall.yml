@@ -9,7 +9,7 @@
     - name: Check for omi directory and create if not exist.
       file:
         path: /tmp/OMI
-      ` state: directory
+        state: directory
         mode: '0755'
         
     - name: Check for /var/opt/OV directory and create if not exist.
