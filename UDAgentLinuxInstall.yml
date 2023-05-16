@@ -40,7 +40,6 @@
       copy: 
         src: files/scripts/UDScripts
         dest: /opt/HP/udagent
-        remote_src: no
         mode: '0755'
     
     - name: set udagent directory permissions
