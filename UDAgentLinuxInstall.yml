@@ -15,6 +15,7 @@
       get_url:
         url: "{{ item }}"
         dest: /opt/HP/udagent
+        mode: '0755'
         username: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
       loop: 
@@ -26,6 +27,7 @@
       unarchive: 
         src: /opt/HP/udagent/"{{ item }}"
         dest: /opt/HP/udagent
+        mode: '0755'
         remote_src: no
       with_items:
         - agentinstall_unix.zip
