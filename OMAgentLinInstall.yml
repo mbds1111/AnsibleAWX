@@ -40,7 +40,7 @@
       command: chmod -R 755 /tmp/OMI 
     
     - name: Run OMAgentLinuxInstall script on target host
-      shell: /tmp/OMI/OMIScripts/OMAgentLinuxInstall.sh {{ mgmtIp }} {{ sntCode }}
+      shell: sh /tmp/OMI/OMIScripts/OMAgentLinuxInstall.sh {{ mgmtIp }} {{ sntCode }}
       register: result1
       
     - name: print OMAgentLinuxInstall script output
@@ -48,7 +48,7 @@
         msg: "Script output is: {{ result1 }}"
         
     - name: Run OMAgnetLinuxValidation script on target host
-      win_shell: /tmp/OMI/OMIScripts/OMAgnetLinuxValidation.sh
+      shell: sh /tmp/OMI/OMIScripts/OMAgnetLinuxValidation.sh
       register: result2
       
     - name: print OMAgnetLinuxValidation script output
@@ -59,4 +59,4 @@
       file:
         path: /tmp/OMI
         state: absent
-              
+                   
