@@ -1,5 +1,6 @@
 - name: OMI Tool Agent Installation
   hosts: all
+  become: true
   tasks:
     - name: Print Message
       debug:
@@ -21,18 +22,21 @@
       get_url:
         url: https://awxfs.tools.sgns.net/test/Agents/12.23_oa_media_Linux3.10_X64.zip
         dest: '/tmp/OMI'
+        mode: '0755'
         url_username: "{{ Mirror_UN }}"
         url_password: "{{ Mirror_PW }}"
      
     - name: Unarchive to OMI directory
       unarchive:
         src: /tmp/OMI/12.23_oa_media_Linux3.10_X64.zip
-        dest: /tmp/OMI/
+        dest: /tmp/OMI
+        copy: no
+        mode: '0755'
         
     - name: Copy OMAgent install scripts on to target
       copy: 
         src: files/scripts/OMIScripts
-        dest: '/tmp/OMI/'
+        dest: '/tmp/OMI'
         remote_src: no
         mode: '0755'
     
