@@ -1,5 +1,6 @@
 - name: UD Tool Agent Installation
   hosts: all
+  become: true
   tasks:
     - name: Print Message
       debug:
