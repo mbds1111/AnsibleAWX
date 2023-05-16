@@ -5,23 +5,12 @@
       debug:
         msg: "UD Agent Installation!!"
     
-    - name: Check for /opt/HP/udagent directory.
-      stat:
-        path: /opt/HP/udagent
-      register: myDir
-       
-    - name: echo if the directory already exist
-      debug:
-        msg: "/opt/HP/udagent directory is already exist."
-      when: myDir.stat.exists
-     
-    - name: Create /opt/HP/udagent directory if not exists 
+    - name: Check for /opt/HP/udagent directory and create if not exist.
       file:
-        path: /opt/HP/udagent
-        state: directory
-        mode: '0755'
-      when: myDir.stat.exists == false
-      
+       path: /opt/HP/udagent
+     ` state: directory
+       mode: '0755'
+    
     - name: Copy UD Installer package from url
       ansible.builtin.get_url:
         url: "{{ item }}"
@@ -32,7 +21,7 @@
         - https://awxfs.tools.sgns.net/test/Agents/agentinstall_unix.zip
         - https://awxfs.tools.sgns.net/test/Agents/certs.zip
         - https://awxfs.tools.sgns.net/test/Agents/hp-ud-agent-linux.zip
-    
+     
     - name: Unarchive to udagent directory
       unarchive: 
         src: /opt/HP/udagent/"{{ item }}"
@@ -51,17 +40,16 @@
     
     - name: set udagent directory permissions
       command: chmod -R 755 /opt/HP/udagent
-    
+      
     - name: Run UDAgentLinuxInstall script on target host
-      command: sh /opt/HP/udagent/UDScripts/UDAgentLinuxInstall.sh {{ probeIp }}
+      shell: sh /opt/HP/udagent/UDScripts/UDAgentLinuxInstall.sh {{ probeIp }}
       register: result1
-       
-    - name: print UDAgentLinuxInstall script output
+      
+    - name: print udAgentInstall script output
       debug:
         msg: "Script output is: {{ result1 }}"
-        
-    - name: Cleanup packages and scripts
-      ansible.builtin.file:
+    
+    - name: Cleanup packages and scripts 
+      file:
         path: /opt/HP/udagent
         state: absent
-     
