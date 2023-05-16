@@ -28,6 +28,7 @@
       unarchive: 
         src: "{{ item }}"
         dest: /opt/HP/udagent
+        copy: no
         mode: '0755'
         remote_src: no
       with_items:
