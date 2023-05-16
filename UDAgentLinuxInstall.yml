@@ -30,7 +30,6 @@
         dest: /opt/HP/udagent
         copy: no
         mode: '0755'
-        remote_src: no
       with_items:
         - /opt/HP/udagent/agentinstall_unix.zip
         - /opt/HP/udagent/certs.zip
@@ -40,6 +39,7 @@
       copy: 
         src: files/scripts/UDScripts
         dest: /opt/HP/udagent
+        remote_src: no
         mode: '0755'
     
     - name: set udagent directory permissions
