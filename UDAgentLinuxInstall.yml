@@ -1,6 +1,5 @@
 - name: UD Tool Agent Installation
   hosts: all
-  become: true
   tasks:
     - name: Print Message
       debug:
@@ -13,7 +12,7 @@
        mode: '0755'
     
     - name: Copy UD Installer package from url
-      ansible.builtin.get_url:
+      get_url:
         url: "{{ item }}"
         dest: /opt/HP/udagent
         username: "{{ Mirror_UN }}"
@@ -27,6 +26,7 @@
       unarchive: 
         src: /opt/HP/udagent/"{{ item }}"
         dest: /opt/HP/udagent
+        remote_src: no
       with_items:
         - agentinstall_unix.zip
         - certs.zip
