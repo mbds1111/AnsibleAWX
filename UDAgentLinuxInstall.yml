@@ -26,14 +26,14 @@
      
     - name: Unarchive to udagent directory
       unarchive: 
-        src: /opt/HP/udagent/"{{ item }}"
+        src: "{{ item }}"
         dest: /opt/HP/udagent
         mode: '0755'
         remote_src: no
       with_items:
-        - agentinstall_unix.zip
-        - certs.zip
-        - hp-ud-agent-linux.zip
+        - /opt/HP/udagent/agentinstall_unix.zip
+        - /opt/HP/udagent/certs.zip
+        - /opt/HP/udagent/hp-ud-agent-linux.zip
         
     - name: Copy install UD scripts on to target
       copy: 
