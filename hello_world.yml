@@ -1,6 +1,7 @@
+---
 - name: Adding mirror fqdn to hosts file  
-    win_hosts:
-      state: present
-      canonical_name: awxfs.tools.sgns.net
-      ip_address: 10.146.62.138
+  win_hosts:
+    state: present
+    canonical_name: awxfs.tools.sgns.net
+    ip_address: 10.146.62.138
     
