@@ -1,8 +1,6 @@
-- name: Tools Agent Installation
-  hosts: "{{ hostName }}"
-  tasks:
-    - name: Hello Message
-      debug:
-        msg: "Hello World"
-        msg: "hostname given is: {{ hostName }}"
+- name: Adding mirror fqdn to hosts file  
+    win_hosts:
+      state: present
+      canonical_name: awxfs.tools.sgns.net
+      ip_address: 10.146.62.138
     
