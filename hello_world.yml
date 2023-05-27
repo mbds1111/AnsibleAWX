@@ -13,7 +13,7 @@
         body_format: json
         headers: 
             content-type: application/json
-            Authorization: "SGAS ad6e5ff962ef7dd3b9039b851b92ae88:0f43e6e3d1442b5ff1fd22692b94c67a011dc8ea38ea43cf7e1f7e1670711e31"
+            Authorization: "{{ ESBSTAGE }}"
       register: result
       
     - name: printing response
