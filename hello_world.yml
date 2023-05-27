@@ -1,9 +1,24 @@
-- name: Test playbook
-  hosts: all
+- name: Post OS Common Tasks
+  hosts: localhost
+  
   tasks:
-    - name: Adding mirror fqdn to hosts file  
-      win_hosts:
-        state: present
-        canonical_name: awxfs.tools.sgns.net
-        ip_address: 10.146.62.138
-    
+    - name: Print Message
+      debug:
+        msg: "Running Post OS Common Tasks!!"
+        
+    - name: Check IpAddress is registered with zone in DNS
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=RAtest-win2k22M.sahd.omi.local
+        method: GET
+        body_format: json
+        headers: 
+            content-type: application/json
+            Authorization: "SGAS ad6e5ff962ef7dd3b9039b851b92ae88:0f43e6e3d1442b5ff1fd22692b94c67a011dc8ea38ea43cf7e1f7e1670711e31"
+      register: result
+      
+    -name: printing response
+      debug:
+        msg: result
+        
+
+            
