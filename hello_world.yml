@@ -8,14 +8,28 @@
         
     - name: Check IpAddress is registered with zone in DNS
       uri:
+        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=10.66.241.175
+        method: GET
+        body_format: json
+        headers: 
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+      register: hostFQDN
+      
+    - name: Check host fqdn is registered with zone in DNS
+      uri:
         url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=RAtest-win2k22M.sahd.omi.local
         method: GET
         body_format: json
         headers: 
             content-type: application/json
             Authorization: "{{ Esb_Stg }}"
-      register: result
+      register: ipAddrs
+      
       
     - name: printing response
       debug:
-        msg: "{{ result.json.result }}"
+        msg: "{{ hostFQDN.json.result }}"
+        msg: "{{ ipAddrs.json.result }}"
+        
+    - 
