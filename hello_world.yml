@@ -30,6 +30,6 @@
     - name: printing response
       debug:
         msg: "{{ hostFQDN.json.result }}"
-        msg: "{{ ipAddrs.json.result }}"
+        
         
     - 
