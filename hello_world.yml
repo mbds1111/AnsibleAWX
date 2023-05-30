@@ -26,10 +26,23 @@
             Authorization: "{{ Esb_Stg }}"
       register: ipAddrs
       
-      
+    - name: add record
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records?create_zones=true
+        method: Post
+        body_format: json
+        headers: 
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+        body: 
+            [
+                ["${targethostname}","${targetip}"]
+            ]
+        register: response
+      when: hostFQDN.json.result != "RAtest-win2k22M.sahd.omi.local" || ipAddrs.json.result != "10.66.241.175"
+       
     - name: printing response
       debug:
-        msg: "{{ hostFQDN.json.result }}"
-        
+        msg: "{{ response }}"
         
     - 
