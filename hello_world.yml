@@ -13,7 +13,7 @@
         body_format: json
         headers: 
             content-type: application/json
-            Authorization: "{{ ESBSTAGE }}"
+            Authorization: "{{ Esb_Stg }}"
       register: result
       
     - name: printing response
