@@ -48,6 +48,4 @@
               [ 
                 ["RAtest-win2k22M","10.66.241.175"]
               ]  
-        register: response    
       when: (hostFQDN.json.status == "not found") or (ipAddrs.json.status == "not found")
-     
