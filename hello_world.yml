@@ -6,21 +6,47 @@
       debug:
         msg: "Running Post OS Common Tasks!!"
         
-    - name: delete record from Bind DNS
+    - name: Check IpAddress is registered with zone in DNS
       uri:
-        url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records
-        method: delete
+        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=10.66.241.175
+        method: GET
         body_format: json
         headers: 
             content-type: application/json
             Authorization: "{{ Esb_Stg }}"
+        status_code: 200, 404
+      register: hostFQDN
+      
+    - name: pring result
+      debug: 
+        msg: "{{ hostFQDN }}"
+        
+    - name: Check host fqdn is registered with zone in DNS
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=RAtest-win2k22M.sahd.omi.local
+        method: GET
+        body_format: json
+        headers: 
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+        status_code: 200, 404
+      register: ipAddrs
+    
+    - name: pring result
+      debug: 
+        msg: "{{ ipAddrs }}"
+        
+    - name: add record
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records?create_zones=true
+        method: Post
+        body_format: raw
+        headers: 
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
         status_code: 200, 201
-        body: |-
+        body: |-   
               [ 
                 ["RAtest-win2k22M","10.66.241.175"]
-              ]
-      register: addRecord      
-    
-    - name: Print add record response
-      debug:
-        msg: "{{ addRecord }}"
+              ]  
+      when: (hostFQDN.json.status == "not found") or (ipAddrs.json.status == "not found")
