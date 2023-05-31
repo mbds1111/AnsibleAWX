@@ -6,47 +6,32 @@
       debug:
         msg: "Running Post OS Common Tasks!!"
         
-    - name: Check IpAddress is registered with zone in DNS
+    - name: Check IpAddress is registered NNMI
       uri:
-        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=10.66.241.175
+        url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/nnmi/10.66.241.175
         method: GET
         body_format: json
         headers: 
             content-type: application/json
             Authorization: "{{ Esb_Stg }}"
-        status_code: 200, 404
-      register: hostFQDN
+        status_code: 200
+      register: seed
       
     - name: pring result
       debug: 
-        msg: "{{ hostFQDN }}"
+        msg: "{{ seed }}"
         
-    - name: Check host fqdn is registered with zone in DNS
+    - name: Check IpAddress is registered with ucmdb
       uri:
-        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=RAtest-win2k22M.sahd.omi.local
+        url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes/10.66.241.175
         method: GET
         body_format: json
         headers: 
             content-type: application/json
             Authorization: "{{ Esb_Stg }}"
-        status_code: 200, 404
-      register: ipAddrs
+        status_code: 200
+      register: cmdbseed
     
     - name: pring result
       debug: 
-        msg: "{{ ipAddrs }}"
-        
-    - name: add record
-      uri:
-        url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records?create_zones=true
-        method: Post
-        body_format: raw
-        headers: 
-            content-type: application/json
-            Authorization: "{{ Esb_Stg }}"
-        status_code: 200, 201
-        body: |-   
-              [ 
-                ["RAtest-win2k22M","10.66.241.175"]
-              ]  
-      when: (hostFQDN.json.status == "not found") or (ipAddrs.json.status == "not found")
+        msg: "{{ cmdbseed }}"
