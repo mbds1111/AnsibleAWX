@@ -41,5 +41,5 @@
                 ["RAtest-win2k22M","10.66.241.175"]
             ]
         register: response    
-      when: (hostFQDN.json.status = "not found") or (ipAddrs.json.status == "not found")
+      when: (hostFQDN.json.status == "not found") or (ipAddrs.json.status == "not found") or (hostFQDN.json.result != "RAtest-win2k22M.sahd.omi.local") or (ipAddrs.json.result != "10.66.241.175")
      
