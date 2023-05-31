@@ -17,6 +17,10 @@
         status_code: 200, 404
       register: hostFQDN
       
+    - name: pring result
+      debug: 
+        msg: "{{ hostFQDN }}"
+        
     - name: Check host fqdn is registered with zone in DNS
       uri:
         url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=RAtest-win2k22M.sahd.omi.local
@@ -27,7 +31,11 @@
             Authorization: "{{ Esb_Stg }}"
         status_code: 200, 404
       register: ipAddrs
-      
+    
+    - name: pring result
+      debug: 
+        msg: "{{ ipAddrs }}"
+        
     - name: add record
       uri:
         url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records?create_zones=true
@@ -41,5 +49,5 @@
                 ["RAtest-win2k22M","10.66.241.175"]
             ]
         register: response    
-      when: (hostFQDN.status == "404") or (ipAddrs.status == "404")
+      when: (hostFQDN.status == 404) or (ipAddrs.status == 404)
      
