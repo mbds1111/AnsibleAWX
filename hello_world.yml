@@ -6,10 +6,30 @@
       debug:
         msg: "Running Post OS Common Tasks!!"
         
-    - name: delete record from Bind DNS
+    - name: Check IpAddress is registered with zone in DNS
       uri:
-        url: https://esb-stage.tools.sgns.net:443/dns/zone/${zoneName}/records
-        method: delete
+        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=10.66.241.175
+        method: GET
+        body_format: json
+        headers: 
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+      register: hostFQDN
+      
+    - name: Check host fqdn is registered with zone in DNS
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=RAtest-win2k22M.sahd.omi.local
+        method: GET
+        body_format: json
+        headers: 
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+      register: ipAddrs
+      
+    - name: add record
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records?create_zones=true
+        method: Post
         body_format: json
         headers: 
             content-type: application/json
@@ -18,10 +38,6 @@
             [
                 ["RAtest-win2k22M","10.66.241.175"]
             ]
-        register: response
-     
-    - name: Print Response
-      debug:
-        msg: "{{ response }}"
-      
+        register: response    
+      when: (hostFQDN.json.result != "RAtest-win2k22M.sahd.omi.local") or (ipAddrs.json.result != "10.66.241.175")
      
