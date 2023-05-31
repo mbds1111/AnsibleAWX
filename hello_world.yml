@@ -49,5 +49,5 @@
                 ["RAtest-win2k22M","10.66.241.175"]
               ]  
         register: response    
-      when: (hostFQDN.status is search("404")) or (ipAddrs.status is search ("404"))
+      when: (hostFQDN.json.status is search("not found")) or (ipAddrs.json.status is search ("not found"))
      
