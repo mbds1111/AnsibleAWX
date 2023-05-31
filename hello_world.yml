@@ -40,9 +40,4 @@
             ]
         register: response    
       when: (hostFQDN.json.result != "RAtest-win2k22M.sahd.omi.local") or (ipAddrs.json.result != "10.66.241.175")
-        
-        
-    - name: printing response
-      debug:
-        msg: "add record response is : {{ response }}"
-        
+      
