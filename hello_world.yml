@@ -69,8 +69,8 @@
       when: (cmdbseed.json | length == 0) or (cmdbseed.json.excluded != "True")
       
     - name: Add entry in to ucmdb
-        uri:
-          url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes
         method: Post
         body_format: json
         headers:
