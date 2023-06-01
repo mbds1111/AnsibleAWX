@@ -15,12 +15,28 @@
             content-type: application/json
             Authorization: "{{ Esb_Stg }}"
         status_code: 200
-      register: seed
+      register: ipSeed
       
     - name: pring result
       debug: 
-        msg: "{{ seed }}"
+        msg: "{{ ipSeed }}"
         
+    - name: add entry in to NNMI
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/nnmi
+        method: Post
+        body_format: json
+        headers:
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+        status_code: 200, 201
+        body: |-
+              {
+                "ip_address": "10.66.241.175",
+                "location":"PA.PHILADELPHIA.287"
+              }
+      when: ipSeed.json | length == 0
+      
     - name: Check IpAddress is registered with ucmdb
       uri:
         url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes/10.66.241.175
@@ -34,4 +50,38 @@
     
     - name: pring result
       debug: 
-        msg: "{{ cmdbseed }}"
+        msg: "{{ cmdbseed }}"  
+        
+    - name: add entry in to ucmdb
+      uri:
+        url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes
+        method: Post
+        body_format: json
+        headers:
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+        status_code: 200, 201
+        body: |-
+              {
+                "ip_address": "10.66.241.175",
+                "location":"PA.PHILADELPHIA.287"
+              }
+      when: (cmdbseed.json | length == 0) or (cmdbseed.json.excluded != "True")
+      
+    - name: Add entry in to ucmdb
+        uri:
+          url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes
+        method: Post
+        body_format: json
+        headers:
+            content-type: application/json
+            Authorization: "{{ Esb_Stg }}"
+        status_code: 200, 201
+        body: |-
+              {
+                "ip_address": "10.66.241.175",
+                "probe":"{{ cmdbseed.json.probeName }}"
+              }
+      when: (cmdbseed.json.excluded == "True")
+      
+     
