@@ -33,7 +33,7 @@
         body: |-
               {
                 "ip_address": "10.66.241.175",
-                "location":"PA.PHILADELPHIA.287"
+                "location": "PA.PHILADELPHIA.287"
               }
       when: ipSeed.json | length == 0
       
@@ -64,7 +64,7 @@
         body: |-
               {
                 "ip_address": "10.66.241.175",
-                "location":"PA.PHILADELPHIA.287"
+                "location": "PA.PHILADELPHIA.287"
               }
       when: (cmdbseed.json | length == 0) or (cmdbseed.json.excluded != "True")
       
@@ -80,7 +80,7 @@
         body: |-
               {
                 "ip_address": "10.66.241.175",
-                "probe":"{{ cmdbseed.json.probeName }}"
+                "probe": "{{ cmdbseed.json.probeName }}"
               }
       when: (cmdbseed.json.excluded == "True")
       
