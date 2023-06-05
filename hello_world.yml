@@ -66,7 +66,7 @@
                 "ip_address": "10.66.241.175",
                 "location": "PA.PHILADELPHIA.287"
               }
-      when: (cmdbseed.json | length == 0) or (cmdbseed.json.excluded != "True")
+      when: (cmdbseed.json | length == 0) or (cmdbseed.json.excluded == "False")
       
     - name: Add entry in to ucmdb
       uri:
