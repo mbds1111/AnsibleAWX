@@ -55,5 +55,5 @@
     - name: add entry in to ucmdb
       debug:
         msg: "identified json excluded"
-      when: (cmdbseed.json.excluded == "False")
+      when: cmdbseed.json[0].excluded == "False"
      
