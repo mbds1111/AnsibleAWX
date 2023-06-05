@@ -82,6 +82,6 @@
                 "ip_address": "10.66.241.175",
                 "probe": "{{ cmdbseed.json.probeName }}"
               }
-      when: (cmdbseed.json.excluded == "True")
+      when: (cmdbseed.json.excluded == "True") and (cmdbseed.json | length != 0)
       
      
