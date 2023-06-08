@@ -25,3 +25,7 @@
       changed_when: "'token' in AuthKey.json"
 
     - debug: var=AuthKey.json
+
+    - name: print AuthKey
+      debug: 
+        msg: "{{ AuthKey }}"
