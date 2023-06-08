@@ -32,7 +32,7 @@
 
     - name: Get group details for the snt code given
       uri:
-        url: https://esb.tools.sgns.net:443/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&groupName={{ sntCode }}&operator=contains
+        url: https://esb.tools.sgns.net:443/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&groupName=SAHD&operator=contains
         method: Get
         body_format: json
         headers:
