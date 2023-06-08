@@ -21,9 +21,7 @@
                 "password" : "{{ SEPM_PW }}",
                 "domain" : ""
               }
-         return_content: yes     
       register: AuthKey
-      
-    - name: Print Authkey
-      debug:
-        msg: "{{ Authkey }}"
+      changed_when: "'token' in AuthKey.json"
+
+    - debug: var=AuthKey.json
