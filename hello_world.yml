@@ -28,4 +28,4 @@
 
     - name: print AuthKey
       debug: 
-        msg: "{{ AuthKey }}"
+        msg: "{{ AuthKey.json.token }}"
