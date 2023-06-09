@@ -51,4 +51,4 @@
     - name: print customer name
       debug:
         msg: "{{ groupId.json[0].name }}"
-      when: groupId.json[0].name is search("SAHD")  
+      when: not "SAHD" in groupId.json[0].name
