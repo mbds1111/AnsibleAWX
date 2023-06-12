@@ -1,2 +1,9 @@
 ---
 # test yaml
+- name: check hostname
+  command: hostname
+  register: cmdOut
+  
+- name: pring output
+  debug:
+    msg: {{ cmdOut }}
