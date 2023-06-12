@@ -49,4 +49,24 @@
     - name: print hardwarekey
       debug:
         msg: "{{ hostDetails.json.content[0].hardwareKey }}"
+
+    - name: Delete computer from SEPM
+      uri:
+        url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json[0].token }}
+        method: Post
+        body_format: json
+        headers:
+            content-type: application/json
+            Authorization: "{{ Esb_Prd }}"
+        status_code: 200, 201
+        body: |-
+              [
+                {
+                  "group": {
+                  "name": "{{ hostDetails.json.content[0].group.name }}"
+                  },
+                  "hardwareKey": "{{ hostDetails.json.content[0].hardwareKey }}"
+                }
+              ]
+      when: (hostDetails.json.content[0].group.name | length == 0) and (hostDetails.json.content[0].hardwareKey | length == 0)
       
