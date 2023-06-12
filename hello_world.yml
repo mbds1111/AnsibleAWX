@@ -42,13 +42,11 @@
       when: AuthKey.json.token | length != 0
       register: hostDetails
 
-    - debug: var=hostDetails.json
-
     - name: print computer Name
       debug: 
-        msg: "{{ hostDetails.json.content }}"
+        msg: "{{ hostDetails.json.content[0].group.name }}"
 
     - name: print hardwarekey
       debug:
-        msg: "{{ hostDetails.json.content.hardwareKey }}"
+        msg: "{{ hostDetails.json.content[0].hardwareKey }}"
       
