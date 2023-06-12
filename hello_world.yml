@@ -46,7 +46,7 @@
 
     - name: print computer Name
       debug: 
-        msg: "{{ hostDetails.json.content.name }}"
+        msg: "{{ hostDetails.json.content.group }}"
 
     - name: print hardwarekey
       debug:
