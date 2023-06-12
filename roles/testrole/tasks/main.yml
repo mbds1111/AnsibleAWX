@@ -6,4 +6,4 @@
   
 - name: pring output
   debug:
-    msg: {{ cmdOut }}
+    msg: "{{ cmdOut }}"
