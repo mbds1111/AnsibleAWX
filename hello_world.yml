@@ -32,7 +32,7 @@
 
     - name: Get computer details for the hostname given
       uri:
-        url: https://esb.tools.sgns.net:443/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&computerName=RAtest-win2k22M
+        url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json.token }}&computerName=RAtest-win2k22M
         method: Get
         body_format: json
         headers:
