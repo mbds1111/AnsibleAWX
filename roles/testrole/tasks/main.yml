@@ -1,7 +1,8 @@
 ---
 # test yaml
 - name: check hostname
-  command: hostname
+  command: 
+    cmd: hostname
   register: cmdOut
   
 - name: pring output
