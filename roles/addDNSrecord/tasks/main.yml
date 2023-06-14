@@ -7,7 +7,7 @@
         content-type: application/json
         Authorization: "{{ Esb_Stg }}"
     status_code: 200, 404
-  delegate_to: localhost
+  #delegate_to: localhost
   register: hostFQDN
 
 - name: print hostFQDN
@@ -23,7 +23,7 @@
         content-type: application/json
         Authorization: "{{ Esb_Stg }}"
     status_code: 200, 404
-  delegate_to: localhost
+  #delegate_to: localhost
   register: ipAddrs
     
 - name: print ipAddrs
@@ -43,5 +43,5 @@
           [ 
             ["RAtest-win2k22M","10.66.241.175"]
           ]  
-  delegate_to: localhost
+  #delegate_to: localhost
   when: ((hostDetails.json.status is defined ) and (hostFQDN.json.status == "not found")) or ((ipAddrs.json.status is defined) and (ipAddrs.json[0].status == "not found"))
