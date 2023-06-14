@@ -1,7 +1,8 @@
 ---
-- hosts: "{{ hostName }}"
+- name: Running Post OS Provisioning steps  
+  hosts: "{{ hostName }}"
 
-- name: check hostname
+- name: "check hostname"
   win_command: hostname
   register: cmdOut
   
