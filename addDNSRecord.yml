@@ -1,4 +1,4 @@
 ---
-- hosts: {{ hostName }}
+- hosts: "{{ hostName }}"
   roles: 
     - addDNSrecord
