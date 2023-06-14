@@ -1,5 +1,14 @@
 ---
 - hosts: "{{ hostName }}"
+
+- name: check hostname
+  win_command: hostname
+  register: cmdOut
+  
+- name: print output
+  debug:
+    msg: "{{ cmdOut }}"
+  
   roles: 
     - role: addDNSrecord
-      delegate_to: localhost
+  delegate_to: localhost
