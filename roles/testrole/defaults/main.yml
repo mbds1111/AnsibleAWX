@@ -1,4 +1,4 @@
 ---
-sntCode: saot
-mgmtIp: 1.1.1.1
-hostName: test.{{ sntCode }}.omi.local
+sntCode: 
+mgmtIp: 
+hostName: 
