@@ -26,10 +26,10 @@
   delegate_to: localhost
   register: ipAddrs
     
-- name: print hostFQDN
+- name: print ipAddrs
   debug: 
-    msg: "{{ hostFQDN }}"
-    
+    msg: "{{ ipAddrs }}"
+
 - name: add record
   uri:
     url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records?create_zones=true
