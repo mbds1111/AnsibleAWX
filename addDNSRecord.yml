@@ -5,6 +5,7 @@
     - role: InstallConfigureSNMP
       delegate_to: "{{ hostName }}"
 
-- name: print output
-  debug:
-    msg: "This is printing on localhost - {{ hosts }}"
+  tasks:
+    - name: print output
+      debug:
+        msg: "This is printing on localhost - {{ hosts }}"    
