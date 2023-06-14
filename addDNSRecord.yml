@@ -1,9 +1,10 @@
 ---
 - name: Running Post OS Provisioning steps  
-  hosts: "{{ hostName }}"
+  hosts: localhost
   tasks:
     - name: "check hostname"
       win_command: hostname
+      delegate_to: "{{ hostName }}"
       register: cmdOut
   
     - name: print output
@@ -12,4 +13,3 @@
 
   roles: 
     - role: addDNSrecord
-      delegate_to: localhost
