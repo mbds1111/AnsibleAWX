@@ -1,4 +1,5 @@
 ---
 - hosts: "{{ hostName }}"
   roles: 
-    - addDNSrecord
+    - role: addDNSrecord
+      delegate_to: localhost
