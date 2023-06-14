@@ -10,6 +10,10 @@
   delegate_to: localhost
   register: hostFQDN
 
+- name: print hostFQDN
+  debug: 
+    msg: "{{ hostFQDN }}"
+
 - name: Check host fqdn is registered with zone in DNS
   uri:
     url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=RAtest-win2k22M.sahd.omi.local
@@ -21,6 +25,10 @@
     status_code: 200, 404
   delegate_to: localhost
   register: ipAddrs
+    
+- name: print hostFQDN
+  debug: 
+    msg: "{{ hostFQDN }}"
     
 - name: add record
   uri:
