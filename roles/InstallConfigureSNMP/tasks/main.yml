@@ -1,3 +1,9 @@
+- name: Adding OMI DNS fqdn to hosts file
+  win_hosts:
+      state: present
+      canonical_name: omi-bbc.tools.sgns.net
+      ip_address: 216.203.5.152
+  
 - name: Check for sungard_files directory and create if not exist
   win_file:
     path: C:\sungard_files\
