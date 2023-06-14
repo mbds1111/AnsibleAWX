@@ -1,28 +1,11 @@
-- name: Adding OMI DNS fqdn to hosts file
-  win_hosts:
-      state: present
-      canonical_name: omi-bbc.tools.sgns.net
-      ip_address: 216.203.5.152
-  
-- name: Check for sungard_files directory and create if not exist
-  win_file:
-    path: C:\sungard_files\
-    state: directory
-
-- name: Copy install post os task script on to target
-  win_copy: 
-    src: files/scripts/SNMP
-    dest: 'C:\sungard_files\'
-    remote_src: no
-    
-- name: Run Post OS common task batch script on target host
-  win_shell: C:\\sungard_files\\SNMP\\GBL-IMP-WIN-INSTALL-CONFIGURE-SNMP.ps1
-  register: result
-      
-- name: print post os common task script output
+- name: Print Message
   debug:
-    msg: "Script output is: {{ result }}"
+    msg: "Running Install and Configure SNMP!!"
 
-- name: Cleanup packages and scripts 
-  win_shell: Remove-Item -Path C:\sungard_files\SNMP -Recurse -verbose
+- name: check hostname
+  win_command: hostname
+  register: cmdOut
   
+- name: ping output
+  debug:
+    msg: "{{ cmdOut }}"
