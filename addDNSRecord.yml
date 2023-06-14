@@ -1,15 +1,10 @@
 ---
 - name: Running Post OS Provisioning steps  
   hosts: localhost
-  tasks:
-    - name: "check hostname"
-      win_command: hostname
-      delegate_to: "{{ hostName }}"
-      register: cmdOut
-  
-    - name: print output
-      debug:
-        msg: "{{ cmdOut }}"
-
   roles: 
-    - role: addDNSrecord
+    - role: InstallConfigureSNMP
+      delegate_to: "{{ hostName }}"
+
+- name: print output
+  debug:
+    msg: "This is printing on localhost - {{ hosts }}"
