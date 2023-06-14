@@ -44,4 +44,4 @@
             ["RAtest-win2k22M","10.66.241.175"]
           ]  
   delegate_to: localhost
-  when: (hostFQDN.json.status == "not found") or (ipAddrs.json.status == "not found")
+  when: (hostFQDN.json[0].status == "not found") or (ipAddrs.json[0].status == "not found")
