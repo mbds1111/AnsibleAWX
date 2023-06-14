@@ -12,7 +12,7 @@
 
 - name: show mgmtIP value
   debug: 
-    var: mgmtIP
+    var: mgmtIp
 
 - name: show hostname value
   debug: 
