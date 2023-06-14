@@ -2,6 +2,18 @@
   win_command: hostname
   register: cmdOut
   
-- name: pring output
+- name: ping output
   debug:
     msg: "{{ cmdOut }}"
+
+- name: show snt code value
+  debug: 
+    var: sntCode
+
+- name: show mgmtIP value
+  debug: 
+    var: mgmtIP
+
+- name: show hostname value
+  debug: 
+    var: hostName
