@@ -7,11 +7,12 @@
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
         method: POST  
-        body: '{
-                  "name": "TestInventory",
+        body: |-
+              {
+                  "name": "TestInventory1",
                   "description": "Testing inventory api",
-                  "organization": "1",
-              }'
+                  "organization": "1"
+              }
         body_format: json
         force_basic_auth: yes
         status_code: 201, 200, 400    
