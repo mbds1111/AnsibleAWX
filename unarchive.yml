@@ -8,6 +8,13 @@
       debug:
         msg: "{{ fqdn }}"
     - name: adding host to Windows inventory
-      add_host:
-        name: "{{ fqdn }}"
-        inventory_id: "2"
+      uri:
+       url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/2/hosts/
+       user: "{{ Mirror_UN }}"
+       password: "{{ Mirror_PW }}"
+       method: POST
+       body: '{ "name" : "{{ fqdn }}" }'
+       force_basic_auth: yes
+       status_code: 201, 200
+       body_format: json
+       validate_certs: no
