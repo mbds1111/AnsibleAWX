@@ -6,11 +6,9 @@
         url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
-        body_format: json
         method: POST  
-        body: '|-
-              {
-                "name": "TestInventory",
+        body: '{
+                  "name": "TestInventory",
                   "description": "Testing inventory api",
                   "organization": "",
                   "kind": "",
@@ -18,6 +16,7 @@
                   "variables": "ansible_port: 31457\nansible_winrm_transport: credssp\nansible_connection: winrm\nansible_winrm_scheme: https",
                   "insights_credential": ""
               }'
+        body_format: json
         force_basic_auth: yes
         status_code: 201, 200, 400      
         validate_certs: no
