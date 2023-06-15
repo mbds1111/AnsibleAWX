@@ -54,4 +54,3 @@ Elseif ($numtraps -eq 4)
 
 	Write-Output "INFO::Traps have been set as" $trap1 "," $trap2 "," $trap3 "and " $trap4 "under Trap Name" $trapname
 }
-}
