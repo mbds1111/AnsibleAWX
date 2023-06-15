@@ -1,0 +1,108 @@
+- name: Get Auth Token from SEPM
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/authToken?customerRegion=US
+    method: Post
+    body_format: json
+    headers: 
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+    body: |-
+          {
+            "username" : "{{ SEPM_UN }}",
+            "password" : "{{ SEPM_PW }}",
+            "domain" : ""
+          }
+  register: AuthKey
+  changed_when: "'token' in AuthKey.json"
+      
+- name: Get group details for the snt code given
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json[0].token }}&groupName={{ sntCode }}&operator=contains
+    method: Get
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+  when: AuthKey.json[0].token | length != 0
+  register: groupId  
+      
+- name: Get computer details for the snt code given
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}&computerName={{ hostName }}
+    method: Get
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+  register: compDetails
+
+- name: Create group for the snt code given
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/groups/2C4A70B90A8B40EE4A4A7F5506AF5BD7?customerRegion=US&authToken={{ AuthKey.json[0].token }}
+    method: Post
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+    body: |-
+          {
+            "name" : "{{ customerName }} {{ sntCode }}"
+          }
+  when: (compDetails.json.hardwareKey | length != 0) or (groupId.json[0].id == 0)
+  register: createGroup
+
+- name: Check group details created for the snt code given
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json[0].token }}&groupName={{ sntCode }}&operator=contains
+    method: Get
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+  when: AuthKey.json[0].token | length != 0
+  register: groupId1  
+
+- name: Patch computer group details for the snt code given
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}
+    method: PATCH
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+    body: |-
+          [
+            {
+              "group": {
+              "id": "{{ groupId.json[0].id }}"
+              },
+              "hardwareKey": "{{ compDetails.json.hardwareKey }}"
+            }
+          ]
+    when: not groupId.json[0].name is search("{{ sntCode }}")
+
+- name: patch group with new id for the snt code given
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}
+    method: PATCH
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+    body: |-
+          [
+            {
+              "group": {
+              "id": "{{ groupId1.json[0].id }}"
+              },
+              "hardwareKey": "{{ compDetails.json.hardwareKey }}"
+            }
+          ]
+    when: groupId1.json[0].id | length != 0
