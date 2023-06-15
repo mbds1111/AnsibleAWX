@@ -3,4 +3,4 @@
   tasks:
     - name: check hostname
       debug: 
-        msg: "{{ hostName | split(.) | first }}"
+        msg: "{{ hostName | split('.') | first }}"
