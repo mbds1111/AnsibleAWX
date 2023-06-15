@@ -1,0 +1,49 @@
+
+- name: Adding OMI DNS fqdn to hosts file
+  win_hosts:
+    state: present
+    canonical_name: omi-bbc.tools.sgns.net
+    ip_address: 216.203.5.152
+        
+- name: Adding mirror fqdn to hosts file  
+  win_hosts:
+    state: present
+    canonical_name: awxfs.tools.sgns.net
+    ip_address: 10.146.62.138
+    
+- name: Check for UD directory and create if not exist.
+  win_file:
+    path: C:\sungard_files\UD
+    state: directory
+        
+- name: copy UD Installer package from url
+  win_get_url:
+    url: https://awxfs.tools.sgns.net/test/Agents/UDAgent_11.60-upgrade.zip
+    dest: 'C:\sungard_files\UD\'
+    url_username: "{{ Mirror_UN }}"
+    url_password: "{{ Mirror_PW }}"
+     
+- name: Unarchive to UD folder
+  win_unzip:
+    src: C:\sungard_files\UD\UDAgent_11.60-upgrade.zip
+    dest: C:\sungard_files\UD
+        
+- name: Copy install UD powershell scripts on to target
+  win_copy: 
+    src: files/scripts/UDScripts
+    dest: 'C:\sungard_files\'
+    remote_src: no
+        
+- name: Run udAgentInstall script on target host
+  win_shell: C:\\sungard_files\\UDScripts\\udAgentInstall.ps1 -probe_ip {{ probeIp }}
+  register: result1
+      
+- name: print udAgentInstall script output
+  debug:
+    msg: "Script output is: {{ result1 }}"
+    
+- name: Cleanup packages and scripts 
+  win_shell: Remove-Item -Path C:\sungard_files\UD -Recurse -verbose
+      
+- name: Cleanup scripts 
+  win_shell: Remove-Item -Path C:\sungard_files\UDScripts -Recurse -verbose
