@@ -2,3 +2,5 @@
 sntCode: 
 mgmtIp: 
 hostName: 
+ESBURL: esb-stage.tools.sgns.net
+ESBPORT: 443
