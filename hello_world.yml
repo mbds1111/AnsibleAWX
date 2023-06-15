@@ -19,4 +19,4 @@
 
     - name: print inventory id 
       debug:  
-        msg: "{{ response.json.results.id }}"
+        msg: "{{ response.json.results[0].id }}"
