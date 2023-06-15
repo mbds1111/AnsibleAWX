@@ -1,0 +1,79 @@
+- name: Check IpAddress is registered NNMI
+  uri:
+    url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/nnmi/{{ mgmtIp }}
+    method: GET
+    body_format: json
+    headers: 
+        content-type: application/json
+        Authorization: "{{ Esb_Stg }}"
+    status_code: 200
+  register: ipSeed
+      
+- name: print API response
+  debug: 
+    msg: "{{ ipSeed }}"
+        
+- name: add entry in to NNMI
+  uri:
+    url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/nnmi
+    method: Post
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Stg }}"
+    status_code: 200, 201
+    body: |-
+          {
+            "ip_address": "{{ mgmtIp }}",
+            "location": "{{ facilityLocation }}"
+              }
+    when: ipSeed.json | length == 0
+      
+- name: Check IpAddress is registered with ucmdb
+  uri:
+    url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes/{{ mgmtIp }}
+    method: GET
+    body_format: json
+    headers: 
+        content-type: application/json
+        Authorization: "{{ Esb_Stg }}"
+    status_code: 200
+  register: cmdbseed
+    
+- name: print API response
+  debug: 
+    msg: "{{ cmdbseed }}"  
+        
+- name: add record to ucmdb with IpAddress and location
+  uri:
+    url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes
+    method: Post
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Stg }}"
+    status_code: 200, 201
+    body: |-
+          {
+            "ip_address": "{{ mgmtIp }}",
+            "location": "{{ facilityLocation }}"
+          }
+  when: (cmdbseed.json | length == 0) or (cmdbseed.json[0].excluded != "True")
+      
+- name: Add record to ucmdb with ipaddress and probeName
+  uri:
+    url: https://esb-stage.tools.sgns.net:443/omsServices/ipmanage/probes
+    method: Post
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Stg }}"
+    status_code: 200, 201
+    body: |-
+          {
+            "ip_address": "{{ mgmtIp }}",
+            "probe": "{{ cmdbseed.json.probeName }}"
+          }
+  when: (cmdbseed.json | length != 0) and (cmdbseed.json[0].excluded == "True")
+      
+     
