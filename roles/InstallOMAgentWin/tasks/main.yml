@@ -1,0 +1,62 @@
+- name: Adding OMI DNS fqdn to hosts file
+  win_hosts:
+    state: present
+    canonical_name: omi-bbc.tools.sgns.net
+    ip_address: 216.203.5.152    
+        
+- name: Adding mirror fqdn to hosts file  
+  win_hosts:
+    state: present
+    canonical_name: awxfs.tools.sgns.net
+    ip_address: 10.146.62.138
+        
+- name: Check for omi directory and create if not exist.
+  win_file:
+    path: C:\sungard_files\OMI
+    state: directory
+        
+- name: copy OM Installer package from url
+  win_get_url:
+    url: https://awxfs.tools.sgns.net/test/Agents/HPEOpsBAgent_Windows_12.20.05_BASE.zip
+    dest: 'C:\sungard_files\OMI\'
+    url_username: "{{ Mirror_UN }}"
+    url_password: "{{ Mirror_PW }}"
+     
+- name: Unarchive to OMI folder
+  win_unzip:
+    src: C:\sungard_files\OMI\HPEOpsBAgent_Windows_12.20.05_BASE.zip
+    dest: C:\sungard_files\OMI
+        
+- name: Copy install OMI powershell scripts on to target
+  win_copy: 
+    src: files/scripts/OMIScripts
+    dest: 'C:\sungard_files\OMI\'
+    remote_src: no
+    
+- name: Run installOMI script on target host
+  win_shell: C:\\sungard_files\\OMI\\OMIScripts\\installOMI.ps1
+  register: result1
+      
+- name: print installOMI script output
+  debug:
+    msg: "Script output is: {{ result1 }}"
+        
+- name: run testOMI script on target host
+  win_shell: C:\\sungard_files\\OMI\\OMIScripts\\testOMI.ps1 -snt_code {{ sntCode }} -mgmt_ip {{ mgmtIp }}
+  register: result2
+      
+- name: print testOMI script output
+  debug:
+    msg: "Script output is: {{ result2 }}"
+        
+- name: run ValidateOMIStatus script on target host
+  win_shell: C:\\sungard_files\\OMI\\OMIScripts\\ValidateOMIStatus.ps1
+  register: result3
+      
+- name: print ValidateOMIStatus script output
+  debug:
+    msg: "Script output is: {{ result3 }}"
+        
+- name: Cleanup packages and scripts 
+  win_shell: Remove-Item -Path C:\sungard_files\OMI -Recurse -verbose
+                   
