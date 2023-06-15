@@ -6,6 +6,9 @@
         url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
+        body_format: json
+        headers: 
+            content-type: application/json
         method: POST  
         body: |-
               {
