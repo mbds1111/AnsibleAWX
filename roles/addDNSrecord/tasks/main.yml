@@ -1,6 +1,6 @@
 - name: "Check IpAddress is registered with zone in DNS"
   uri:
-    url: https://esb-stage.tools.sgns.net:443/dns/lookup?query="{{ mgmtIp }}"
+    url: https://esb-stage.tools.sgns.net:443/dns/lookup?query=mgmtIp
     method: GET
     body_format: json
     headers: 
@@ -15,7 +15,7 @@
 
 - name: Check host fqdn is registered with zone in DNS
   uri:
-    url: https://esb-stage.tools.sgns.net:443/dns/lookup?query="{{ hostName }}"."{{ sntCode }}".omi.local
+    url: https://esb-stage.tools.sgns.net:443/dns/lookup?query= hostName.sntCode.omi.local
     method: GET
     body_format: json
     headers: 
@@ -39,6 +39,6 @@
     status_code: 200, 201
     body: |-   
           [ 
-            ["{{ hostName }}","{{ mgmtIp }}"]
+            ["hostName","mgmtIp"]
           ]  
   when: ((hostDetails.json.status is defined ) and (hostFQDN.json.status == "not found")) or ((ipAddrs.json.status is defined) and (ipAddrs.json[0].status == "not found"))
