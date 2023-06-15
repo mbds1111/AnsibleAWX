@@ -1,18 +1,20 @@
 ---
 - hosts: localhost
-- name: create inventory
-  uri: 
-    url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
-    user: "{{ Mirror_UN }}"
-    password: "{{ Mirror_PW }}"
-    method: POST  
-    body: |-
-          {
-             "name": "TestInventory",
-              "description": "Testing inventory api",
-              "organization": "",
-              "kind": "",
-              "host_filter": "",
-              "variables": "ansible_port: 31457\nansible_winrm_transport: credssp\nansible_connection: winrm\nansible_winrm_scheme: https",
-              "insights_credential": ""
-          }
+  tasks: 
+    - name: create inventory
+      uri: 
+        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
+        user: "{{ Mirror_UN }}"
+        password: "{{ Mirror_PW }}"
+        method: POST  
+        body: |-
+              {
+                "name": "TestInventory",
+                  "description": "Testing inventory api",
+                  "organization": "",
+                  "kind": "",
+                  "host_filter": "",
+                  "variables": "ansible_port: 31457\nansible_winrm_transport: credssp\nansible_connection: winrm\nansible_winrm_scheme: https",
+                  "insights_credential": ""
+              }
+
