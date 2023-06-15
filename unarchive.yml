@@ -7,3 +7,7 @@
     - name: print fqdn
       debug:
         msg: "{{ fqdn }}"
+    - name: adding host to Windows inventory
+      add_host:
+        name: "{{ fqdn }}"
+        inventory_id: "2"
