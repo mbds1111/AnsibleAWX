@@ -1,11 +1,11 @@
 - name: "Check IpAddress is registered with zone in DNS"
   uri:
-    url: https://"{{ ESBURL }}":"{{ ESBPORT }}"/dns/lookup?query="{{ mgmtIp }}"
+    url: https://esb-stage.tools.sgns.net:443/dns/lookup?query="{{ mgmtIp }}"
     method: GET
     body_format: json
     headers: 
         content-type: application/json
-        Authorization: "{{ ESBAuth }}"
+        Authorization: "{{ Esb_Stg }}"
     status_code: 200, 404
   register: hostFQDN
 
@@ -15,12 +15,12 @@
 
 - name: Check host fqdn is registered with zone in DNS
   uri:
-    url: https://"{{ ESBURL }}":"{{ ESBPORT }}"/dns/lookup?query="{{ hostName }}"."{{ sntCode }}".omi.local
+    url: https://esb-stage.tools.sgns.net:443/dns/lookup?query="{{ hostName }}"."{{ sntCode }}".omi.local
     method: GET
     body_format: json
     headers: 
         content-type: application/json
-        Authorization: "{{ ESBAuth }}"
+        Authorization: "{{ Esb_Stg }}"
     status_code: 200, 404
   register: ipAddrs
     
@@ -30,12 +30,12 @@
 
 - name: add record
   uri:
-    url: https://"{{ ESBURL }}":"{{ ESBPORT }}"/dns/zone/sahd/records?create_zones=true
+    url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records?create_zones=true
     method: Post
     body_format: raw
     headers: 
         content-type: application/json
-        Authorization: "{{ ESBAuth }}"
+        Authorization: "{{ Esb_Stg }}"
     status_code: 200, 201
     body: |-   
           [ 
