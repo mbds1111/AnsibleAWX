@@ -1,0 +1,58 @@
+- name: Get Auth Token from SEP
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/authToken?customerRegion=US
+    method: Post
+    body_format: json
+    headers: 
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+    body: |-
+          {
+            "username" : "{{ SEPM_UN }}",
+            "password" : "{{ SEPM_PW }}",
+            "domain" : ""
+          }
+  register: AuthKey
+  changed_when: "'token' in AuthKey.json"
+
+- name: Get computer details for the hostname given
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json.token }}&computerName={{ hostName }}
+    method: Get
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+  when: AuthKey.json.token | length != 0
+  register: hostDetails
+
+- name: print computer Name
+  debug: 
+    msg: "{{ hostDetails.json.content[0].group.name }}"
+
+- name: print hardwarekey
+  debug:
+    msg: "{{ hostDetails.json.content[0].hardwareKey }}"
+
+- name: Delete computer from SEPM
+  uri:
+    url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json[0].token }}
+    method: Post
+    body_format: json
+    headers:
+        content-type: application/json
+        Authorization: "{{ Esb_Prd }}"
+    status_code: 200, 201
+    body: |-
+          [
+            {
+              "group": {
+              "name": "{{ hostDetails.json.content[0].group.name }}"
+              },
+              "hardwareKey": "{{ hostDetails.json.content[0].hardwareKey }}"
+            }
+          ]
+  when: (hostDetails.json.content[0].group.name | length == 0) and (hostDetails.json.content[0].hardwareKey | length == 0)
+      
