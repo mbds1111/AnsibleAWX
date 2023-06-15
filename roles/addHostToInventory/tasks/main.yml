@@ -1,0 +1,19 @@
+- name: set host fqdn variable
+  set_fact: 
+    fqdn: " {{ hostName }}.{{sntCode}}.omi.local"  
+    
+- name: print host fqdn name
+  debug:
+    msg: "{{ fqdn }}"
+    
+- name: add host fqdn name to Windows Inventory
+  uri:
+    url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/3/hosts/
+    user: "{{ Mirror_UN }}"
+    password: "{{ Mirror_PW }}"
+    method: POST
+    body: '{ "name" : "{{ fqdn }}" }'
+    force_basic_auth: yes
+    status_code: 201, 200, 400
+    body_format: json
+    validate_certs: no
