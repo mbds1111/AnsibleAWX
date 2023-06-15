@@ -1,5 +1,5 @@
 ---
-    - name: Delete Records from Bind DNS
+    - name: Delete Host Record from SEPM
       hosts: localhost
       roles: 
         - role: DeleteHostSEPM
