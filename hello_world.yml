@@ -13,6 +13,10 @@
         validate_certs: no
       register: result
     
+    - name: print result 
+      debug:  
+        msg: "{{ result }}"
+
     - name: print inventory id 
       debug:  
-        msg: "{{ result.json[0].id }}"
+        msg: "{{ result.json.id }}"
