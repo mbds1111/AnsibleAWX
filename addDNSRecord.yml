@@ -2,6 +2,7 @@
 - name: Running Post OS Provisioning steps  
   hosts: localhost
   roles: 
+    - role: addDNSrecord
     - role: InstallConfigureSNMP
       delegate_to: "{{ hostName }}"
 
