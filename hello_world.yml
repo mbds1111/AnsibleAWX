@@ -11,10 +11,6 @@
                   "name": "TestInventory",
                   "description": "Testing inventory api",
                   "organization": "1",
-                  "kind": "",
-                  "host_filter": "",
-                  "variables": ``,
-                  "insights_credential": ``
               }'
         body_format: json
         force_basic_auth: yes
