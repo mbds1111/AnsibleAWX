@@ -9,8 +9,8 @@
         method: POST  
         body: |-
               {
-                  "name": "TestInventory1",
-                  "description": "Testing inventory api",
+                  "name": "{{ sntCode }}_Windows2022",
+                  "description": "{{ sntCode }} Windows 2022 Inventory",
                   "organization": "1"
               }
         body_format: json
