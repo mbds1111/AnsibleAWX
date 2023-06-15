@@ -1,11 +1,11 @@
 - name: Get Auth Token from SEPM
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/authToken?customerRegion=US
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/authToken?customerRegion=US
     method: Post
     body_format: json
     headers: 
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
     body: |-
           {
@@ -18,35 +18,35 @@
       
 - name: Get group details for the snt code given
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json[0].token }}&groupName={{ sntCode }}&operator=contains
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json[0].token }}&groupName={{ sntCode }}&operator=contains
     method: Get
     body_format: json
     headers:
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
   when: AuthKey.json[0].token | length != 0
   register: groupId  
       
 - name: Get computer details for the snt code given
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}&computerName={{ hostName }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}&computerName={{ hostName }}
     method: Get
     body_format: json
     headers:
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
   register: compDetails
 
 - name: Create group for the snt code given
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/groups/2C4A70B90A8B40EE4A4A7F5506AF5BD7?customerRegion=US&authToken={{ AuthKey.json[0].token }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/groups/2C4A70B90A8B40EE4A4A7F5506AF5BD7?customerRegion=US&authToken={{ AuthKey.json[0].token }}
     method: Post
     body_format: json
     headers:
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
     body: |-
           {
@@ -57,19 +57,19 @@
 
 - name: Check group details created for the snt code given
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json[0].token }}&groupName={{ sntCode }}&operator=contains
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json[0].token }}&groupName={{ sntCode }}&operator=contains
     method: Get
     body_format: json
     headers:
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
   when: AuthKey.json[0].token | length != 0
   register: groupId1  
 
 - name: Patch computer group details for the snt code given
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}
     method: PATCH
     body_format: json
     headers:
@@ -89,12 +89,12 @@
 
 - name: patch group with new id for the snt code given
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json[0].token }}
     method: PATCH
     body_format: json
     headers:
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
     body: |-
           [
