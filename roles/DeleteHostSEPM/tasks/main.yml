@@ -1,11 +1,11 @@
 - name: Get Auth Token from SEP
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/authToken?customerRegion=US
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/authToken?customerRegion=US
     method: Post
     body_format: json
     headers: 
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
     body: |-
           {
@@ -18,12 +18,12 @@
 
 - name: Get computer details for the hostname given
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json.token }}&computerName={{ hostName }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?authToken={{ AuthKey.json.token }}&computerName={{ hostName }}
     method: Get
     body_format: json
     headers:
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
   when: AuthKey.json.token | length != 0
   register: hostDetails
@@ -38,12 +38,12 @@
 
 - name: Delete computer from SEPM
   uri:
-    url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json[0].token }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?authToken={{ AuthKey.json[0].token }}
     method: Post
     body_format: json
     headers:
         content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
+        Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
     body: |-
           [
