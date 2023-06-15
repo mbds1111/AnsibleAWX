@@ -1,6 +1,6 @@
 - name: "Check IpAddress is registered with zone in DNS"
   uri:
-    url: https://"{{ ESBURL }}"":"{{ ESBPORT }}"/dns/lookup?query="{{ mgmtIp }}"
+    url: https://"{{ ESBURL }}":"{{ ESBPORT }}"/dns/lookup?query="{{ mgmtIp }}"
     method: GET
     body_format: json
     headers: 
@@ -15,7 +15,7 @@
 
 - name: Check host fqdn is registered with zone in DNS
   uri:
-    url: https://"{{ ESBURL }}"":"{{ ESBPORT }}"/dns/lookup?query="{{ hostName }}"."{{ sntCode }}".omi.local
+    url: https://"{{ ESBURL }}":"{{ ESBPORT }}"/dns/lookup?query="{{ hostName }}"."{{ sntCode }}".omi.local
     method: GET
     body_format: json
     headers: 
