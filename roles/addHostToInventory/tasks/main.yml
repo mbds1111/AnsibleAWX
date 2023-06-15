@@ -8,7 +8,7 @@
     
 - name: add host fqdn name to Windows Inventory
   uri:
-    url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/3/hosts/
+    url: http://{{ awxHost }}/api/v2/inventories/{{ inventoryID }}/hosts/
     user: "{{ Mirror_UN }}"
     password: "{{ Mirror_PW }}"
     method: POST
