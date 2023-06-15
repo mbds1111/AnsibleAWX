@@ -1,0 +1,18 @@
+- name: delete record from Bind DNS
+  uri:
+    url: https://esb-stage.tools.sgns.net:443/dns/zone/sahd/records
+    method: delete
+    body_format: json
+    headers: 
+        content-type: application/json
+        Authorization: "{{ Esb_Stg }}"
+    status_code: 200, 201
+    body: |-
+          [ 
+            ["{{ hostName }}","mgmtIp"]
+          ]
+  register: addRecord      
+    
+- name: Print add record response
+  debug:
+    msg: "{{ addRecord }}"
