@@ -2,3 +2,5 @@
 sntCode: 
 mgmtIp: 
 hostName: 
+awxHost: bt-c9-stream-tmp.oamp.sgns.net
+inventoryID: 3 
