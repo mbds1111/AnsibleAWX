@@ -1,0 +1,40 @@
+- name: Adding OMI DNS fqdn to hosts file
+  win_hosts:
+    state: present
+    canonical_name: omi-bbc.tools.sgns.net
+    ip_address: 216.203.5.152
+    
+- name: Adding mirror fqdn to hosts file  
+  win_hosts:
+    state: present
+    canonical_name: awxfs.tools.sgns.net
+    ip_address: 10.146.62.138
+    
+- name: Check for Symantec directory and create if not exist.
+  win_file:
+    path: C:\sungard_files\Symantec
+    state: directory
+        
+- name: copy UD Installer package from url
+  win_get_url:
+    url: https://awxfs.tools.sgns.net/test/Agents/SEP_14.3_RU4_64bit.zip
+    dest: 'C:\sungard_files\Symantec\'
+    url_username: "{{ Mirror_UN }}"
+    url_password: "{{ Mirror_PW }}"
+     
+- name: Unarchive to Symantec folder
+  win_unzip:
+    src: C:\sungard_files\Symantec\SEP_14.3_RU4_64bit.zip
+    dest: C:\sungard_files\Symantec
+            
+- name: Run Sep64 msi Installer
+  win_shell: C:\sungard_files\Symantec\SEP_14.3_RU4_64bit\Sep64.msi ADDLOCAL=SAVMain,SymProtectManifest ENABLEAUTOPROTECT=1 RUNLIVEUPDATE=1 REBOOT=ReallySuppress /qn /l*v "%TEMP%\SEP_INST.LOG"
+  register: result
+      
+- name: print Sep64 msi Installer output
+  debug:
+    msg: "Script output is: {{ result }}"
+        
+- name: Cleanup packages and scripts 
+  win_shell: Remove-Item -Path C:\sungard_files\Symantec -Recurse -verbose
+      
