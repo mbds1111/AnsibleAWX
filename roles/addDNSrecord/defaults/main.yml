@@ -1,0 +1,7 @@
+---
+sntCode: 
+mgmtIp: 
+hostName:  
+ESBURL: "esb-stage.tools.sgns.net"
+ESBPORT: "443"
+ESBAuth: "SGAS ad6e5ff962ef7dd3b9039b851b92ae88:0f43e6e3d1442b5ff1fd22692b94c67a011dc8ea38ea43cf7e1f7e1670711e31"
