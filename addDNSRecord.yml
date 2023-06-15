@@ -4,7 +4,7 @@
   roles: 
     - role: addDNSrecord
     - role: InstallConfigureSNMP
-      delegate_to: "{{ hostName }}"
+      delegate_to: "{{ hostName }}.{{ sntCode }}.omi.local"
 
   tasks:
     - name: print output
