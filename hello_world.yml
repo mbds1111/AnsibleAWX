@@ -10,13 +10,13 @@
         body: '{
                   "name": "TestInventory",
                   "description": "Testing inventory api",
-                  "organization": "",
+                  "organization": "1",
                   "kind": "",
                   "host_filter": "",
-                  "variables": "ansible_port: 31457\nansible_winrm_transport: credssp\nansible_connection: winrm\nansible_winrm_scheme: https",
-                  "insights_credential": ""
+                  "variables": '',
+                  "insights_credential": ''
               }'
         body_format: json
         force_basic_auth: yes
-        status_code: 201, 200, 400      
+        status_code: 201    
         validate_certs: no
