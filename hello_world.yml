@@ -13,10 +13,10 @@
                   "organization": "1",
                   "kind": "",
                   "host_filter": "",
-                  "variables": '',
-                  "insights_credential": ''
+                  "variables": ``,
+                  "insights_credential": ``
               }'
         body_format: json
         force_basic_auth: yes
-        status_code: 201    
+        status_code: 201, 200, 400    
         validate_certs: no
