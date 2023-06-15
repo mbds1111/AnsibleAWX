@@ -1,72 +1,18 @@
-- name: Post OS Common Tasks
-  hosts: localhost
- 
-  tasks:
-    - name: Print Message
-      debug:
-        msg: "Running Post OS Common Tasks!!"
-        
-    - name: Get Auth Token from SEPM
-      uri:
-        url: https://esb.tools.sgns.net:443/services/sepm/authToken?customerRegion=US
-        method: Post
-        body_format: json
-        headers: 
-            content-type: application/json
-            Authorization: "{{ Esb_Prd }}"
-        status_code: 200, 201
-        body: |-
-              {
-                "username" : "{{ SEPM_UN }}",
-                "password" : "{{ SEPM_PW }}",
-                "domain" : ""
-              }
-      register: AuthKey
-      changed_when: "'token' in AuthKey.json"
-
-    - debug: var=AuthKey.json
-
-    - name: print AuthKey
-      debug: 
-        msg: "{{ AuthKey.json.token }}"
-
-    - name: Get computer details for the hostname given
-      uri:
-        url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json.token }}&computerName=RAtest-win2k22M
-        method: Get
-        body_format: json
-        headers:
-            content-type: application/json
-            Authorization: "{{ Esb_Prd }}"
-        status_code: 200, 201
-      when: AuthKey.json.token | length != 0
-      register: hostDetails
-
-    - name: print computer Name
-      debug: 
-        msg: "{{ hostDetails.json.content[0].group.name }}"
-
-    - name: print hardwarekey
-      debug:
-        msg: "{{ hostDetails.json.content[0].hardwareKey }}"
-
-    - name: Delete computer from SEPM
-      uri:
-        url: https://esb.tools.sgns.net:443/services/sepm/computers?authToken={{ AuthKey.json[0].token }}
-        method: Post
-        body_format: json
-        headers:
-            content-type: application/json
-            Authorization: "{{ Esb_Prd }}"
-        status_code: 200, 201
-        body: |-
-              [
-                {
-                  "group": {
-                  "name": "{{ hostDetails.json.content[0].group.name }}"
-                  },
-                  "hardwareKey": "{{ hostDetails.json.content[0].hardwareKey }}"
-                }
-              ]
-      when: (hostDetails.json.content[0].group.name | length == 0) and (hostDetails.json.content[0].hardwareKey | length == 0)
-      
+---
+- hosts: localhost
+- name: create inventory
+  uri: 
+    url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
+    user: "{{ Mirror_UN }}"
+    password: "{{ Mirror_PW }}"
+    method: POST  
+    body: |-
+          {
+             "name": "TestInventory",
+              "description": "Testing inventory api",
+              "organization": "",
+              "kind": "",
+              "host_filter": "",
+              "variables": "ansible_port: 31457\nansible_winrm_transport: credssp\nansible_connection: winrm\nansible_winrm_scheme: https",
+              "insights_credential": ""
+          }
