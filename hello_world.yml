@@ -11,12 +11,12 @@
         force_basic_auth: yes
         status_code: 201, 200, 400    
         validate_certs: no
-      register: result
+      register: response
     
     - name: print result 
       debug:  
-        msg: "{{ result }}"
+        msg: "{{ response }}"
 
     - name: print inventory id 
       debug:  
-        msg: "{{ result.json.id }}"
+        msg: "{{ response.result.json.id }}"
