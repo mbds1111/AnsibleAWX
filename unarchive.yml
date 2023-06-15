@@ -1,9 +1,9 @@
-- name: check host value
+- name: create dynamic inventory
   hosts: localhost
   tasks:
-    - name: set variable
+    - name: set fqdn variable
       set_fact: 
-        hName: " {{ hostName }} | split('.') | first"  
-    - name: check hostname
+        fqdn: " {{ hostName }}.{{sntCode}}.omi.local"  
+    - name: print fqdn
       debug:
-        msg: "{{ hName }}"
+        msg: "{{ fqdn }}"
