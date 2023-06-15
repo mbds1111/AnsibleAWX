@@ -1,6 +1,9 @@
 - name: check host value
   hosts: localhost
   tasks:
+    - name: set variable
+      set_fact: 
+        hName: " {{ hostName }} | split('.') | first"  
     - name: check hostname
-      debug: 
-        msg: "{{ hostName | split('.') | first }}"
+      debug:
+        msg: "{{ hName }}"
