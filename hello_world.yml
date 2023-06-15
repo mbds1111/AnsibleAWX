@@ -3,17 +3,16 @@
   tasks: 
     - name: create inventory
       uri: 
-        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
+        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/?name=sahd_Windows2022
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
-        method: POST  
-        body: |-
-              {
-                  "name": "{{ sntCode }}_Windows2022",
-                  "description": "{{ sntCode }} Windows 2022 Inventory",
-                  "organization": "1"
-              }
+        method: GET  
         body_format: json
         force_basic_auth: yes
         status_code: 201, 200, 400    
         validate_certs: no
+      register: result
+    
+    - name: print inventory id 
+      debug:  
+        msg: "{{ result.json[0].id }}"
