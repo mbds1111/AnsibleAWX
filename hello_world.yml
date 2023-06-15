@@ -7,10 +7,8 @@
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
         body_format: json
-        headers: 
-            content-type: application/json
         method: POST  
-        body: |-
+        body: '|-
               {
                 "name": "TestInventory",
                   "description": "Testing inventory api",
@@ -19,5 +17,7 @@
                   "host_filter": "",
                   "variables": "ansible_port: 31457\nansible_winrm_transport: credssp\nansible_connection: winrm\nansible_winrm_scheme: https",
                   "insights_credential": ""
-              }
-
+              }'
+        force_basic_auth: yes
+        status_code: 201, 200, 400      
+        validate_certs: no
