@@ -64,7 +64,7 @@
           {
             "name" : "{{ customerName }} {{ sntCode | upper }}"
           }
-  when: (compDetails.json.content.hardwareKey | length != 0) or (groupId.json.id == 0)
+  when: (compDetails.json.content[0].hardwareKey | length != 0) or (groupId.json.id == 0)
   register: createGroup
 
 - name: Check group details created for the snt code given
@@ -94,7 +94,7 @@
               "group": {
               "id": "{{ groupId.json.id }}"
               },
-              "hardwareKey": "{{ compDetails.json.content.hardwareKey }}"
+              "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
   when: not groupId.json.name is search("{{ sntCode | upper }}")
@@ -114,7 +114,7 @@
               "group": {
               "id": "{{ groupId1.json.id }}"
               },
-              "hardwareKey": "{{ compDetails.json.content.hardwareKey }}"
+              "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
   when: groupId1.json.id | length != 0
