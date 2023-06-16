@@ -15,7 +15,11 @@
           }
   register: AuthKey
   changed_when: "'token' in AuthKey.json"
-      
+
+- name: print response
+  debug: 
+    msg: "{{ AuthKey }}"
+          
 - name: Get group details for the snt code given
   uri:
     url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json[0].token }}&groupName={{ sntCode }}&operator=contains
