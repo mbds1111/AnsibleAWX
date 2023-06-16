@@ -2,6 +2,6 @@
 sntCode: 
 customerName: 
 hostName: 
-ESBURL: esb-stage.tools.sgns.net
+ESBURL: esb.tools.sgns.net
 ESBPORT: 443
-ESBAuth: SGAS ad6e5ff962ef7dd3b9039b851b92ae88:0f43e6e3d1442b5ff1fd22692b94c67a011dc8ea38ea43cf7e1f7e1670711e31
+ESBAuth: SGAS 971dae1f232d161ef5ec4b81c88192b5:309c6453a0fef1551c61cf921dc4ca63dc3467759d03ee47c2f521bfe73f87a2
