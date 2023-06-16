@@ -38,7 +38,7 @@
 
 - name: Delete computer from SEPM
   uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?authToken={{ AuthKey.json[0].token }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?authToken={{ AuthKey.json.token }}
     method: Post
     body_format: json
     headers:
