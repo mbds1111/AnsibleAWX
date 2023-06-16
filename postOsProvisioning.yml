@@ -2,4 +2,17 @@
 - name: Running Post OS Provisioning steps  
   hosts: localhost
   roles: 
+    - role: addHostToInventory
+    - role: addDNSrecord
+    - role: InstallConfigureSNMP
+      delegate_to: "{{ hostName }}.{{ sntCode }}.omi.local"
+    - role: InstallOMAgentWin
+      delegate_to: "{{ hostName }}.{{ sntCode }}.omi.local"
+    - role: installUDAgentWin
+      delegate_to: "{{ hostName }}.{{ sntCode }}.omi.local"
+    - role: InstallSymantecAgent
+      delegate_to: "{{ hostName }}.{{ sntCode }}.omi.local"
+    - role: PostOSCommonTasks
+      delegate_to: "{{ hostName }}.{{ sntCode }}.omi.local"
+    - role: addHostNNMI
     - role: addHostSEPM
