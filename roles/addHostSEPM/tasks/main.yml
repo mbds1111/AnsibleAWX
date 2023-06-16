@@ -22,7 +22,7 @@
 
 - name: Get group details for the snt code given
   uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&groupName={{ sntCode }}&operator=contains
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&groupName={{ sntCode | upper }}&operator=contains
     method: Get
     body_format: json
     headers:
@@ -53,7 +53,7 @@
 
 - name: Create group for the snt code given
   uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/groups/2C4A70B90A8B40EE4A4A7F5506AF5BD7?customerRegion=US&authToken={{ AuthKey.json.token }}
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/groups/{{ sepmParentGroupId }}?customerRegion=US&authToken={{ AuthKey.json.token }}
     method: Post
     body_format: json
     headers:
@@ -62,14 +62,14 @@
     status_code: 200, 201
     body: |-
           {
-            "name" : "{{ customerName }} {{ sntCode }}"
+            "name" : "{{ customerName }} {{ sntCode | upper }}"
           }
   when: (compDetails.json.hardwareKey | length != 0) or (groupId.json[0].id == 0)
   register: createGroup
 
 - name: Check group details created for the snt code given
   uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&groupName={{ sntCode }}&operator=contains
+    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&groupName={{ sntCode | upper }}&operator=contains
     method: Get
     body_format: json
     headers:
@@ -97,7 +97,7 @@
               "hardwareKey": "{{ compDetails.json.hardwareKey }}"
             }
           ]
-  when: not groupId.json[0].name is search("{{ sntCode }}")
+  when: not groupId.json[0].name is search("{{ sntCode | upper }}")
 
 - name: patch group with new id for the snt code given
   uri:
