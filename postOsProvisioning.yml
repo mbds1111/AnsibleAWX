@@ -2,5 +2,4 @@
 - name: Running Post OS Provisioning steps  
   hosts: localhost
   roles: 
-    - role: addHostNNMI
     - role: addHostSEPM
