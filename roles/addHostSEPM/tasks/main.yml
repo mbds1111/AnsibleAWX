@@ -64,7 +64,7 @@
           {
             "name" : "{{ customerName }} {{ sntCode | upper }}"
           }
-  when: (compDetails.json.hardwareKey | length != 0) or (groupId.json[0].id == 0)
+  when: (compDetails.json.content.hardwareKey | length != 0) or (groupId.json.id == 0)
   register: createGroup
 
 - name: Check group details created for the snt code given
@@ -92,12 +92,12 @@
           [
             {
               "group": {
-              "id": "{{ groupId.json[0].id }}"
+              "id": "{{ groupId.json.id }}"
               },
-              "hardwareKey": "{{ compDetails.json.hardwareKey }}"
+              "hardwareKey": "{{ compDetails.json.content.hardwareKey }}"
             }
           ]
-  when: not groupId.json[0].name is search("{{ sntCode | upper }}")
+  when: not groupId.json.name is search("{{ sntCode | upper }}")
 
 - name: patch group with new id for the snt code given
   uri:
@@ -112,9 +112,9 @@
           [
             {
               "group": {
-              "id": "{{ groupId1.json[0].id }}"
+              "id": "{{ groupId1.json.id }}"
               },
-              "hardwareKey": "{{ compDetails.json.hardwareKey }}"
+              "hardwareKey": "{{ compDetails.json.content.hardwareKey }}"
             }
           ]
-  when: groupId1.json[0].id | length != 0
+  when: groupId1.json.id | length != 0
