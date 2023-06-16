@@ -31,6 +31,10 @@
     status_code: 200, 201
   when: AuthKey.json.token | length != 0
   register: groupId  
+
+- name: print response
+  debug: 
+    msg: "{{ groupId }}"  
       
 - name: Get computer details for the snt code given
   uri:
@@ -42,6 +46,10 @@
         Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
   register: compDetails
+
+- name: print response
+  debug: 
+    msg: "{{ compDetails }}"
 
 - name: Create group for the snt code given
   uri:
