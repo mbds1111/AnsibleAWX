@@ -19,6 +19,8 @@
                   "name": "{{ sntCode }}_Windows2022",
                   "description": "{{ sntCode }} Windows 2022 Inventory",
                   "organization": "1",
+                  "variables": "ansible_port: 31457"
+                                
                   
               }
         body_format: json
