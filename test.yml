@@ -19,10 +19,6 @@
                   "name": "{{ sntCode }}_Windows2022",
                   "description": "{{ sntCode }} Windows 2022 Inventory",
                   "organization": "1",
-                  "variables": "ansible_port: 31457 
-                                ansible_winrm_transport: credssp
-                                ansible_connection: winrm
-                                ansible_winrm_scheme: https"
                   
               }
         body_format: json
@@ -30,7 +26,6 @@
         status_code: 201, 200, 400    
         validate_certs: no
       register: inventResponse            
-      
 
     - name: check inventory created
       uri: 
