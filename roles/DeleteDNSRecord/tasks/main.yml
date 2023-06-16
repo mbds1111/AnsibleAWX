@@ -9,7 +9,7 @@
     status_code: 200, 201
     body: |-
           [ 
-            ["{{ hostName }}","mgmtIp"]
+            ["{{ hostName }}.{{ sntCode }}.omi.local","mgmtIp"]
           ]
   register: addRecord      
     
