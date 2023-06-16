@@ -85,7 +85,7 @@
               "hardwareKey": "{{ compDetails.json.hardwareKey }}"
             }
           ]
-    when: not groupId.json[0].name is search("{{ sntCode }}")
+  when: not groupId.json[0].name is search("{{ sntCode }}")
 
 - name: patch group with new id for the snt code given
   uri:
@@ -105,4 +105,4 @@
               "hardwareKey": "{{ compDetails.json.hardwareKey }}"
             }
           ]
-    when: groupId1.json[0].id | length != 0
+  when: groupId1.json[0].id | length != 0
