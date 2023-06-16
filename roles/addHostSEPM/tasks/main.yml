@@ -62,7 +62,7 @@
     status_code: 200, 201
     body: |-
           {
-            "name" : "{{ customerName }} {{ sntCode | upper }}"
+            "name" : "{{ customerName }} ({{ sntCode | upper }})"
           }
   when: (compDetails.json.content[0].hardwareKey | length != 0) or (groupId.json.id == 0)
   register: createGroup
