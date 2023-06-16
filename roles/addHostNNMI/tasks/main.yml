@@ -27,7 +27,7 @@
             "ip_address": "{{ mgmtIp }}",
             "location": "{{ facilityLocation }}"
               }
-    when: ipSeed.json | length == 0
+  when: ipSeed.json | length == 0
       
 - name: Check IpAddress is registered with ucmdb
   uri:
