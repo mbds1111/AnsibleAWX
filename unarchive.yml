@@ -3,4 +3,4 @@
   tasks:
     - name: print user
       debug:
-        msg: "{{ ansible_user_id }}"
+        msg: "{{ tower_user_name }}"
