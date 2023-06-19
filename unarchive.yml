@@ -4,3 +4,19 @@
     - name: print user
       debug:
         msg: "{{ awx_user_name }}"
+
+    - name: set host fqdn variable
+      set_fact: 
+        fqdn: " {{ hostName }}.{{sntCode}}.omi.local" 
+
+    - name: create user on target host
+      win_user: 
+        name: "{{ awx_user_name }}"
+        password: "{{ sas_Usr_Pwd }}"
+        password_expired: no 
+        state: present
+        groups: 
+          - Users, administrators, Remote Desktop Users
+        groups_action:
+          - add 
+      delegate_to: "{{ fqdn }}"          
