@@ -9,6 +9,10 @@
       set_fact: 
         fqdn: " {{ hostName }}.{{sntCode}}.omi.local" 
 
+    - name: print fqdn
+      debug:
+        msg: "{{ fqdn }}"
+
     - name: create user on target host
       win_user: 
         name: "{{ awx_user_name }}"
