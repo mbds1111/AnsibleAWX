@@ -1,4 +1,4 @@
-- name: get username logged
+- name: Get username signed in to AWX
   hosts: localhost
   tasks:
     - name: print user
@@ -7,19 +7,8 @@
 
     - name: set host fqdn variable
       set_fact: 
-        fqdn: "{{ hostName }}.{{sntCode}}.omi.local" 
+        fqdn: "{{ hostName }}.{{sntCode}}.{{ domainName }}" 
 
     - name: print fqdn
       debug:
         msg: "{{ fqdn }}"
-
-    - name: create user on target host
-      win_user: 
-        name: "sas-{{ awx_user_name }}"
-        state: absent
-      delegate_to: "{{ fqdn }}"          
-      register: userOut
-
-    - name: print userOut result
-      debug: 
-        msg: "{{ userOut }}"
