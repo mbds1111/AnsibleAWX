@@ -3,4 +3,4 @@
   tasks:
     - name: print user
       debug:
-        msg: "{{ tower_user_name }}"
+        msg: "{{ awx_user_name }}"
