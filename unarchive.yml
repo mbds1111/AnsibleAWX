@@ -24,3 +24,8 @@
         groups_action:
           - add 
       delegate_to: "{{ fqdn }}"          
+      register: userOut
+
+    - name: print userOut result
+      debug: 
+        msg: "{{ userOut }}"
