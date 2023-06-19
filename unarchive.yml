@@ -15,14 +15,13 @@
 
     - name: create user on target host
       win_user: 
-        name: "{{ awx_user_name }}"
+        name: "sas-{{ awx_user_name }}"
         password: "{{ sas_Usr_Pwd }}"
+        description: "Sungard User"
         password_expired: no 
         state: present
-        groups: 
-          - Users, administrators, Remote Desktop Users
-        groups_action:
-          - add 
+        groups: "Users,Administrators,Remote Desktop Users"
+        #groups_action: "add" 
       delegate_to: "{{ fqdn }}"          
       register: userOut
 
