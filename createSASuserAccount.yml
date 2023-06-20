@@ -27,3 +27,16 @@
     - name: print userOut result
       debug: 
         msg: "{{ userOut }}"
+      tags:
+        - never
+        
+    - name: Print the username created
+      debug:
+        msg: "{{ userOut }}.name is created successfully on {{ fqdn }}"
+      when: userOut.changed == "true"
+
+    - name: Print the username exists already
+      debug:
+        msg: "{{ userOut }}.name already exists on {{ fqdn }}"
+      when: userOut.changed == "false"
+        
