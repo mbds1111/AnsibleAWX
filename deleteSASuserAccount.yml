@@ -8,13 +8,17 @@
       when: (sasUserName is defined) or (sasUserName != None) or (sasUserName | length != 0)
       register: userOut
 
+    - name: print userOut result
+      debug: 
+        msg: "{{ userOut }}"  
+
     - name: delete user sas-"{{ awx_user_name }}" on "{{ hostName }}.{{sntCode}}.omi.local"
       win_user: 
         name: "sas-{{ awx_user_name }}"
         state: absent
       when: (sasUserName is undefined) or (sasUserName == None) or (sasUserName | length == 0)
-      register: userOut
+      register: userOut1
 
-    - name: print userOut result
+    - name: print userOut1 result
       debug: 
-        msg: "{{ userOut }}"
+        msg: "{{ userOut1 }}"
