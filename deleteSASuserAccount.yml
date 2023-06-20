@@ -11,7 +11,10 @@
 
     - name: print userOut result
       debug: 
-        msg: "{{ userOut }}"  
+        msg: "{{ userOut }}"
+      tags: 
+        - never   
+
 
     - name: delete user sas-"{{ awx_user_name }}" on "{{ hostName }}.{{sntCode}}.omi.local"
       win_user: 
@@ -23,3 +26,5 @@
     - name: print userOut1 result
       debug: 
         msg: "{{ userOut1 }}"
+      tags: 
+        - never
