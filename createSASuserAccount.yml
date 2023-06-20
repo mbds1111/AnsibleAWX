@@ -1,0 +1,29 @@
+- name: Create SAS user account
+  hosts: localhost
+  tasks:
+    - name: Get username signed in to AWX
+      debug:
+        msg: "{{ awx_user_name }}"
+
+    - name: set host fqdn variable
+      set_fact: 
+        fqdn: "{{ hostName }}.{{sntCode}}.{{ domainName }}" 
+
+    - name: print fqdn
+      debug:
+        msg: "{{ fqdn }}"
+
+    - name: create user on target host
+      win_user: 
+        name: "sas-{{ awx_user_name }}"
+        password: "{{ sas_Usr_Pwd }}"
+        description: "Sungard User"
+        password_expired: no 
+        state: present
+        groups: "Users,Administrators,Remote Desktop Users"
+      delegate_to: "{{ fqdn }}"          
+      register: userOut
+
+    - name: print userOut result
+      debug: 
+        msg: "{{ userOut }}"
