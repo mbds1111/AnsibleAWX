@@ -14,7 +14,11 @@
         msg: "{{ fqdn }}"
       tags:
         - always
-
+        
+    - name: check password input
+        - var: sas_Usr_Pwd = "{{ sas_Usr_Pwd_input }}"
+      when: sas_Usr_Pwd_input | length != 0  
+      
     - name: create user on target host
       win_user: 
         name: "sas-{{ awx_user_name }}"
@@ -24,7 +28,7 @@
         password_expired: no 
         state: present
         groups: "Users,Administrators,Remote Desktop Users"
-      delegate_to: "{{ fqdn }}"          
+      delegate_to: "{{ fqdn }}" 
       register: userOut
 
     - name: print userOut result
