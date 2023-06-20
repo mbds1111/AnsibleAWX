@@ -1,27 +1,10 @@
-- name: Get username signed in to AWX
-  hosts: localhost
+- name: delete SAS user account
+  hosts: "{{ hostName }}.{{sntCode}}.omi.local"
   tasks:
-    - name: print user
-      debug:
-        msg: "{{ awx_user_name }}"
-
-    - name: set host fqdn variable
-      set_fact: 
-        fqdn: "{{ hostName }}.{{sntCode}}.{{ domainName }}" 
-
-    - name: print fqdn
-      debug:
-        msg: "{{ fqdn }}"
-
     - name: create user on target host
       win_user: 
-        name: "sas-{{ awx_user_name }}"
-        password: "{{ sas_Usr_Pwd }}"
-        description: "Sungard User"
-        password_expired: no 
-        state: present
-        groups: "Users,Administrators,Remote Desktop Users"
-      delegate_to: "{{ fqdn }}"          
+        name: "sas-{{ sasUserName }}"
+        state: absent
       register: userOut
 
     - name: print userOut result
