@@ -32,7 +32,7 @@
         
     - name: Print the username created
       debug:
-        msg: "{{ userOut.name }} is created successfully on {{ fqdn }}"
+        msg: "{{ userOut.name }} has been created successfully on {{ fqdn }}"
       when: userOut.changed == true
 
     - name: Print the username exists already
