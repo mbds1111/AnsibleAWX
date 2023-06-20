@@ -1,0 +1,12 @@
+- name: delete SAS user account
+  hosts: "{{ hostName }}.{{sntCode}}.omi.local"
+  tasks:
+    - name: create user on target host
+      win_user: 
+        name: "sas-{{ sasUserName }}"
+        state: absent
+      register: userOut
+
+    - name: print userOut result
+      debug: 
+        msg: "{{ userOut }}"
