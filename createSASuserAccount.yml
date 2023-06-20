@@ -17,6 +17,7 @@
       win_user: 
         name: "sas-{{ awx_user_name }}"
         password: "{{ sas_Usr_Pwd }}"
+        update_password: always
         description: "Sungard User"
         password_expired: no 
         state: present
@@ -37,6 +38,6 @@
 
     - name: Print the username exists already
       debug:
-        msg: "{{ userOut.name }} already exists on {{ fqdn }}"
+        msg: "{{ userOut.name }} already exists on {{ fqdn }} ( NOTE: password has been reset to default )"
       when: userOut.changed == false
         
