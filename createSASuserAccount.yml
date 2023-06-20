@@ -12,6 +12,8 @@
     - name: print fqdn
       debug:
         msg: "{{ fqdn }}"
+      tags:
+        - always
 
     - name: create user on target host
       win_user: 
