@@ -38,8 +38,13 @@
         msg: "{{ userOut.name }} has been created successfully on {{ fqdn }}"
       when: userOut.changed == true
 
-    - name: Print the username exists already
+    - name: Print the username exists already and set the current password entered
       debug:
         msg: "{{ userOut.name }} already exists on {{ fqdn }} ( NOTE: password has been set to the current )"
+      when: userOut.changed == true
+
+    - name: Print the username exists already
+      debug:
+        msg: "{{ userOut.name }} already exists on {{ fqdn }}"
       when: userOut.changed == false
         
