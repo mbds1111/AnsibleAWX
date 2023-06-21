@@ -13,7 +13,7 @@
       debug: 
         msg: "{{ userOut }}"
       tags: 
-        - never   
+        - always   
 
 
     - name: delete user sas-"{{ awx_user_name }}" on "{{ hostName }}.{{sntCode}}.omi.local"
@@ -27,4 +27,4 @@
       debug: 
         msg: "{{ userOut1 }}"
       tags: 
-        - never
+        - always
