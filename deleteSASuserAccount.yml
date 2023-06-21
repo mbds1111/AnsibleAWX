@@ -25,8 +25,8 @@
       tags: 
         - never   
 
-    - name: Print the username deleted
-      debug:
+    #- name: Print the username deleted
+    - debug:
         msg: "{{ userOut.name }} has been deleted successfully on {{ fqdn }}"
       when: userOut.changed == true
 
@@ -44,7 +44,7 @@
       tags: 
         - never
 
-    - name: Print the username deleted
-      debug:
+    #- name: Print the username deleted
+    - debug:
         msg: "{{ userOut1.name }} has been deleted successfully on {{ fqdn }}"
       when: userOut1.changed == true
