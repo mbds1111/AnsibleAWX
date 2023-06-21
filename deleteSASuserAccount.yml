@@ -1,10 +1,21 @@
 - name: delete SAS user account
-  hosts: "{{ hostName }}.{{sntCode}}.{{ domainName }}"
+  hosts: localhost
+
   tasks:
-    - name: delete user sas-"{{ sasUserName }}" on "{{ hostName }}.{{sntCode}}.{{ domainName }}"
+    - name: set host fqdn variable
+      set_fact: 
+        fqdn: "{{ hostName }}.{{sntCode}}.{{ domainName }}" 
+
+    - name: print fqdn
+      debug:
+        msg: "{{ fqdn }}"
+
+
+    - name: delete user sas-"{{ sasUserName }}" on {{ fqdn }}
       win_user:  
         name: "sas-{{ sasUserName }}"
         state: absent
+      delegate_to: "{{ fqdn }}"
       when: sasUserName | length != 0
       register: userOut
 
@@ -16,13 +27,14 @@
 
     - name: Print the username deleted
       debug:
-        msg: "{{ userOut.name }} has been deleted successfully on {{ hostName }}.{{sntCode}}.{{ domainName }}"
+        msg: "{{ userOut.name }} has been deleted successfully on {{ fqdn }}"
       when: userOut.changed == true
 
-    - name: delete user sas-"{{ awx_user_name }}" on "{{ hostName }}.{{sntCode}}.{{ domainName }}"
+    - name: delete user sas-"{{ awx_user_name }}" on {{ fqdn }}
       win_user: 
         name: "sas-{{ awx_user_name }}"
         state: absent
+      delegate_to: "{{ fqdn }}"
       when: sasUserName | length == 0
       register: userOut1
 
@@ -34,5 +46,5 @@
 
     - name: Print the username deleted
       debug:
-        msg: "{{ userOut1.name }} has been deleted successfully on {{ hostName }}.{{sntCode}}.{{ domainName }}"
+        msg: "{{ userOut1.name }} has been deleted successfully on {{ fqdn }}"
       when: userOut1.changed == true
