@@ -33,18 +33,13 @@
       tags:
         - always
         
-    - name: Print the username created
+    - name: setting {{ userOut.name }} 
       debug:
-        msg: "{{ userOut.name }} has been created successfully on {{ fqdn }}"
+        msg: "{{ userOut.name }} has been set successfully on {{ fqdn }}"
       when: userOut.changed == true
 
-    - name: Print the username exists already and set the current password entered
-      debug:
-        msg: "{{ userOut.name }} already exists on {{ fqdn }} ( NOTE: password has been set to the current )"
-      when: userOut.changed == true
-
-    - name: Print the username exists already
-      debug:
+    #- name:  the username exists already
+    - debug:
         msg: "{{ userOut.name }} already exists on {{ fqdn }}"
       when: userOut.changed == false
         
