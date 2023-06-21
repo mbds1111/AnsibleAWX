@@ -30,6 +30,10 @@
         msg: "{{ userOut.name }} has been deleted successfully on {{ fqdn }}"
       when: userOut.changed == true
 
+    - debug:
+        msg: "{{ userOut.name }} does not exist on {{ fqdn }}"
+      when: "'not found' in userOut.msg"
+
     - name: delete OAMP user
       win_user: 
         name: "sas-{{ awx_user_name }}"
