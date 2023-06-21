@@ -6,9 +6,9 @@
       set_fact: 
         fqdn: "{{ hostName }}.{{sntCode}}.{{ domainName }}" 
 
-    - name: print fqdn
-      debug:
-        msg: "{{ fqdn }}"
+    #- name: print fqdn
+    - debug:
+        msg: "Target host: {{ fqdn }}"
 
 
     - name: delete user sas-"{{ sasUserName }}" on {{ fqdn }}
