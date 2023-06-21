@@ -23,7 +23,7 @@
       debug: 
         msg: "{{ userOut }}"
       tags: 
-        - always  
+        - never  
 
     #- name: Print the username deleted
     - debug:
@@ -32,7 +32,7 @@
 
     - debug:
         msg: "{{ userOut.name }} does not exist on {{ fqdn }}"
-      when: "'not found' in userOut.msg"
+      when: ('msg' in userOut) and ('not found' in userOut.msg)
 
     - name: delete OAMP user
       win_user: 
@@ -46,7 +46,7 @@
       debug: 
         msg: "{{ userOut1 }}"
       tags: 
-        - always
+        - never
 
     #- name: Print the username deleted
     - debug:
