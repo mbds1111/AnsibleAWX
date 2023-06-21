@@ -11,7 +11,7 @@
         msg: "Target host: {{ fqdn }}"
 
 
-    - name: delete user sas-"{{ sasUserName }}" on {{ fqdn }}
+    - name: delete other user
       win_user:  
         name: "sas-{{ sasUserName }}"
         state: absent
@@ -30,7 +30,7 @@
         msg: "{{ userOut.name }} has been deleted successfully on {{ fqdn }}"
       when: userOut.changed == true
 
-    - name: delete user sas-"{{ awx_user_name }}" on {{ fqdn }}
+    - name: delete OAMP user
       win_user: 
         name: "sas-{{ awx_user_name }}"
         state: absent
