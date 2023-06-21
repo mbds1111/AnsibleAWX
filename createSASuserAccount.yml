@@ -35,7 +35,7 @@
         
     #- name: setting {{ userOut.name }} 
     - debug:
-        msg: "{{ userOut.name }} has been set successfully on {{ fqdn }}"
+        msg: "{{ userOut.name }} has been setup successfully on {{ fqdn }}"
       when: userOut.changed == true
 
     #- name:  the username exists already
