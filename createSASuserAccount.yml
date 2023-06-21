@@ -40,6 +40,6 @@
 
     - name: Print the username exists already
       debug:
-        msg: "{{ userOut.name }} already exists on {{ fqdn }} ( NOTE: password has been reset to default )"
+        msg: "{{ userOut.name }} already exists on {{ fqdn }} ( NOTE: password has been set to the current )"
       when: userOut.changed == false
         
