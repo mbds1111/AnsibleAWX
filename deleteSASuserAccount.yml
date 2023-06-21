@@ -55,4 +55,4 @@
 
     - debug:
         msg: "{{ userOut1.name }} does not exist on {{ fqdn }}"
-      when: "'not found' in userOut1.msg"
+      when: ('msg' in userOut1) and ('not found' in userOut1.msg)
