@@ -42,7 +42,7 @@
       debug: 
         msg: "{{ userOut1 }}"
       tags: 
-        - never
+        - always
 
     #- name: Print the username deleted
     - debug:
