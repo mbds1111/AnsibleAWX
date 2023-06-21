@@ -23,7 +23,7 @@
       debug: 
         msg: "{{ userOut }}"
       tags: 
-        - never   
+        - always  
 
     #- name: Print the username deleted
     - debug:
