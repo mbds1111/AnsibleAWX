@@ -1,13 +1,12 @@
 - name: delete SAS user account
-  hosts: "{{ hostName }}.{{sntCode}}.omi.local"
+  hosts: "{{ hostName }}.{{sntCode}}.{{ domainName }}"
   tasks:
-    - name: delete user sas-"{{ sasUserName }}" on "{{ hostName }}.{{sntCode}}.omi.local"
+    - name: delete user sas-"{{ sasUserName }}" on "{{ hostName }}.{{sntCode}}.{{ domainName }}"
       win_user:  
         name: "sas-{{ sasUserName }}"
         state: absent
       when: sasUserName | length != 0
       register: userOut
-
 
     - name: print userOut result
       debug: 
@@ -15,8 +14,12 @@
       tags: 
         - always   
 
+    - name: Print the username deleted
+      debug:
+        msg: "{{ userOut.name }} has been deleted successfully on {{ hostName }}.{{sntCode}}.{{ domainName }}"
+      when: userOut.changed == true
 
-    - name: delete user sas-"{{ awx_user_name }}" on "{{ hostName }}.{{sntCode}}.omi.local"
+    - name: delete user sas-"{{ awx_user_name }}" on "{{ hostName }}.{{sntCode}}.{{ domainName }}"
       win_user: 
         name: "sas-{{ awx_user_name }}"
         state: absent
@@ -28,3 +31,8 @@
         msg: "{{ userOut1 }}"
       tags: 
         - always
+
+    - name: Print the username deleted
+      debug:
+        msg: "{{ userOut1.name }} has been deleted successfully on {{ hostName }}.{{sntCode}}.{{ domainName }}"
+      when: userOut1.changed == true
