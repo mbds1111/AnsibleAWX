@@ -1,22 +1,5 @@
 ---
-- hosts: localhost
-  tasks: 
-    - name: create inventory
-      uri: 
-        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/?name=sahd_Windows2022
-        user: "{{ Mirror_UN }}"
-        password: "{{ Mirror_PW }}"
-        method: GET  
-        body_format: json
-        force_basic_auth: yes
-        status_code: 201, 200, 400    
-        validate_certs: no
-      register: response
-    
-    - name: print result 
-      debug:  
-        msg: "{{ response }}"
-
-    - name: print inventory id 
-      debug:  
-        msg: "{{ response.json.results[0].id }}"
+- name: Running Post OS Provisioning steps  
+  hosts: localhost
+  roles: 
+    - role: addHostSEPM
