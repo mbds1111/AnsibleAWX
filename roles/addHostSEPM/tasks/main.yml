@@ -14,7 +14,7 @@
             "domain" : ""
           }
   register: AuthKey
-  failed_when: "'token' in AuthKey.json"
+  changed_when: "'token' in AuthKey.json"
 
 - fail:
     msg: "FAILED::Failed to create Auth token."  
