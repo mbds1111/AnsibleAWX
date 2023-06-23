@@ -14,10 +14,13 @@
             "domain" : ""
           }
   register: AuthKey
-  changed_when: "'token' in AuthKey.json"
+  failed_when: "'token' in AuthKey.json"
 
-- name: print response
-  debug: 
+- fail:
+    msg: "FAILED::Failed to create Auth token."  
+  when: AuthKey.json | length == 0
+
+- debug: 
     msg: "{{ AuthKey }}"
 
 - name: Get group details for the snt code given
@@ -29,11 +32,15 @@
         content-type: application/json
         Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
+    
   when: AuthKey.json.token | length != 0
   register: groupId  
 
-- name: print response
-  debug: 
+- fail:
+    msg: "FAILED::Failed to get group details."  
+  when: groupId.json | length == 0
+
+- debug: 
     msg: "{{ groupId }}"  
       
 - name: Get computer details for the snt code given
@@ -47,74 +54,10 @@
     status_code: 200, 201
   register: compDetails
 
-- name: print response
-  debug: 
-    msg: "{{ compDetails }}"
+- fail:
+    msg: "FAILED::Failed to get computer details."  
+  when: compDetails.json.content | length == 0
 
-- name: Create group for the snt code given
-  uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/groups/{{ sepmParentGroupId }}?customerRegion=US&authToken={{ AuthKey.json.token }}
-    method: Post
-    body_format: json
-    headers:
-        content-type: application/json
-        Authorization: "{{ ESBAuth }}"
-    status_code: 200, 201
-    body: |-
-          {
-            "name" : "{{ customerName }} ({{ sntCode | upper }})"
-          }
-  when: (compDetails.json.content[0].hardwareKey | length != 0) or (groupId.json.id == 0)
-  register: createGroup
+- debug: 
+    msg: "{{ compDetails }}"  
 
-- name: Check group details created for the snt code given
-  uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/group?customerRegion=US&authToken={{ AuthKey.json.token }}&groupName={{ sntCode | upper }}&operator=contains
-    method: Get
-    body_format: json
-    headers:
-        content-type: application/json
-        Authorization: "{{ ESBAuth }}"
-    status_code: 200, 201
-  when: AuthKey.json.token | length != 0
-  register: groupId1  
-
-- name: Patch computer group details for the snt code given
-  uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json.token }}
-    method: PATCH
-    body_format: json
-    headers:
-        content-type: application/json
-        Authorization: "{{ Esb_Prd }}"
-    status_code: 200, 201
-    body: |-
-          [
-            {
-              "group": {
-              "id": "{{ groupId.json.id }}"
-              },
-              "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
-            }
-          ]
-  when: not groupId.json.name is search("{{ sntCode | upper }}")
-
-- name: patch group with new id for the snt code given
-  uri:
-    url: https://{{ ESBURL }}:{{ ESBPORT }}/services/sepm/computers?customerRegion=US&authToken={{ AuthKey.json.token }}
-    method: PATCH
-    body_format: json
-    headers:
-        content-type: application/json
-        Authorization: "{{ ESBAuth }}"
-    status_code: 200, 201
-    body: |-
-          [
-            {
-              "group": {
-              "id": "{{ groupId1.json.id }}"
-              },
-              "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
-            }
-          ]
-  when: groupId1.json.id | length != 0
