@@ -139,10 +139,10 @@
           [
             {
               "group": {
-              "id": "{{ groupId1[0].json.id }}"
+              "id": "{{ groupId1.json[0].id }}"
               },
               "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
-  #when: groupId1.json | length != 0
-  when: groupId1 is defined
+  when: groupId1.json | length != 0
+  #when: groupId1 is defined
