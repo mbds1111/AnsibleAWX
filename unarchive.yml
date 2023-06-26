@@ -27,7 +27,11 @@
         force_basic_auth: yes
         status_code: 201, 200, 400    
         validate_certs: no
-      register: inventResponse            
+      register: inventResponse   
+
+    - name: print create inventory response
+      debug:
+        msg: "{{ inventResponse }}"       
 
     - name: check inventory created
       uri: 
@@ -40,6 +44,10 @@
         status_code: 201, 200, 400    
         validate_certs: no
       register: inventoryResponse1
+
+    - name: print get inventory response
+      debug:
+        msg: "{{ inventoryResponse1 }}" 
 
     - name: adding host to Windows inventory
       uri:
