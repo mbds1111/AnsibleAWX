@@ -8,6 +8,13 @@
       debug:
         msg: "{{ fqdn }}"
 
+    - set_fact:
+        inventoryVars: |
+                          ansible_port: 31457
+                          ansible_winrm_transport: credssp 
+                          ansible_connection: winrm 
+                          ansible_winrm_scheme: https                                
+
     - name: create inventory
       uri: 
         url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
@@ -19,10 +26,7 @@
                   "name": "testd_Windows2022",
                   "description": "testd Windows 2022 Inventory",
                   "organization": "1",
-                  "variables": "ansible_port: 31457
-                                ansible_winrm_transport: credssp 
-                                ansible_connection: winrm 
-                                ansible_winrm_scheme: https"
+                  "variables": "{{ inventoryVars }}"
                  
               }
         body_format: json
