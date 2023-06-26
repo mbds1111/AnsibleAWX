@@ -51,45 +51,45 @@
       debug:
         msg: "{{ inventoryResponse1 }}" 
 
-    - name: adding host to Windows inventory
-      uri:
-       url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryResponse1.json.results[0].id }}/hosts/
-       user: "{{ Mirror_UN }}"
-       password: "{{ Mirror_PW }}"
-       method: POST
-       body: '{ "name" : "{{ fqdn }}" }'
-       force_basic_auth: yes
-       status_code: 201, 200, 400
-       body_format: json
-       validate_certs: no
-      when: "{{ inventoryResponse.json.results[0].id }} != 0"
+    # - name: adding host to Windows inventory
+    #   uri:
+    #    url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryResponse1.json.results[0].id }}/hosts/
+    #    user: "{{ Mirror_UN }}"
+    #    password: "{{ Mirror_PW }}"
+    #    method: POST
+    #    body: '{ "name" : "{{ fqdn }}" }'
+    #    force_basic_auth: yes
+    #    status_code: 201, 200, 400
+    #    body_format: json
+    #    validate_certs: no
+    #   when: "{{ inventoryResponse.json.results[0].id }} != 0"
       
-    - name: update inventory details
-      uri: 
-        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/job_templates/19/
-        user: "{{ Mirror_UN }}"
-        password: "{{ Mirror_PW }}"
-        method: patch  
-        body: |-
-              {
-                "inventory": "{{ inventoryResponse1.json.results[0].id }}"
+    # - name: update inventory details
+    #   uri: 
+    #     url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/job_templates/19/
+    #     user: "{{ Mirror_UN }}"
+    #     password: "{{ Mirror_PW }}"
+    #     method: patch  
+    #     body: |-
+    #           {
+    #             "inventory": "{{ inventoryResponse1.json.results[0].id }}"
 
-              }
-        body_format: json
-        force_basic_auth: yes
-        status_code: 201, 200, 400    
-        validate_certs: no
-      register: inventoryResponse2
+    #           }
+    #     body_format: json
+    #     force_basic_auth: yes
+    #     status_code: 201, 200, 400    
+    #     validate_certs: no
+    #   register: inventoryResponse2
 
-    - name: print response
-      debug:
-        msg: "{{ inventoryResponse2 }}"
+    # - name: print response
+    #   debug:
+    #     msg: "{{ inventoryResponse2 }}"
 
-    - name: run command on target host
-      win_command: hostname
-      delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
-      register: cmdoutput
+    # - name: run command on target host
+    #   win_command: hostname
+    #   delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
+    #   register: cmdoutput
 
-    - name: pring command output
-      debug:
-        msg: "command output is {{ cmdoutput }}"
+    # - name: pring command output
+    #   debug:
+    #     msg: "command output is {{ cmdoutput }}"
