@@ -69,7 +69,7 @@
   when: compDetails.json.content[0].hardwareKey | length == 0
 
 - debug: 
-    msg: "host-{{ hostName }} is already part of SEPM group having snt code {{ sntCode }}"
+    msg: "host-{{ hostName }} is already part of SEPM group having snt code {{ sntCode | upper }}"
   when: groupId.json[0].name is search ( sntCode | upper )
   
 
@@ -124,7 +124,7 @@
               "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
-  when: not groupId.json[0].name is search("{{ sntCode | upper }}")
+  when: not groupId.json[0].name is search( sntCode | upper )
 
 - name: patch group with new id for the snt code given
   uri:
@@ -144,4 +144,4 @@
               "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
-  when: groupId1.json[0].id | length != 0
+  when: groupId1.json | length != 0
