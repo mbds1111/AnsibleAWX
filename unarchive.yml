@@ -1,6 +1,59 @@
-- name: update template
+- name: create dynamic inventory
   hosts: localhost
   tasks:
+    - name: set fqdn variable
+      set_fact: 
+        fqdn: " {{ hostName }}.{{sntCode}}.omi.local"  
+    - name: print fqdn
+      debug:
+        msg: "{{ fqdn }}"
+
+    - name: create inventory
+      uri: 
+        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/
+        user: "{{ Mirror_UN }}"
+        password: "{{ Mirror_PW }}"
+        method: POST  
+        body: |-
+              {
+                  "name": "testd_Windows2022",
+                  "description": "{{ sntCode }} Windows 2022 Inventory",
+                  "organization": "1",
+                  "variables": "ansible_port: 31457, ansible_winrm_transport: credssp, ansible_connection: winrm, ansible_winrm_scheme: https"
+                                
+                  
+              }
+        body_format: json
+        force_basic_auth: yes
+        status_code: 201, 200, 400    
+        validate_certs: no
+      register: inventResponse            
+
+    - name: check inventory created
+      uri: 
+        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/?name={{ sntCode }}_Windows2022
+        user: "{{ Mirror_UN }}"
+        password: "{{ Mirror_PW }}"
+        method: GET  
+        body_format: json
+        force_basic_auth: yes
+        status_code: 201, 200, 400    
+        validate_certs: no
+      register: inventoryResponse
+
+    - name: adding host to Windows inventory
+      uri:
+       url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryResponse.json.results[0].id }}/hosts/
+       user: "{{ Mirror_UN }}"
+       password: "{{ Mirror_PW }}"
+       method: POST
+       body: '{ "name" : "{{ fqdn }}" }'
+       force_basic_auth: yes
+       status_code: 201, 200, 400
+       body_format: json
+       validate_certs: no
+      when: "{{ inventoryResponse.json.results[0].id }} != 0"
+      
     - name: update inventory details
       uri: 
         url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/job_templates/19/
@@ -9,7 +62,7 @@
         method: patch  
         body: |-
               {
-                "inventory": "2"
+                "inventory": "{{ inventoryResponse.json.results[0].id }}"
 
               }
         body_format: json
@@ -20,4 +73,13 @@
 
     - name: print response
       debug:
-        msg: "{{ inventoryResponse }}"           
+        msg: "{{ inventoryResponse }}"
+
+    - name: run command on target host
+      win_command: hostname
+      delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
+      register: cmdoutput
+
+    - name: pring command output
+      debug:
+        msg: "command output is {{ cmdoutput }}"
