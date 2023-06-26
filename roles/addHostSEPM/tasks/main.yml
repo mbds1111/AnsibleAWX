@@ -70,7 +70,7 @@
 
 - debug: 
     msg: "host-{{ hostName }} is already part of SEPM group having snt code {{ sntCode }}"
-  when: groupId.json.name is search ("{{ sntCode | upper }}")
+  when: groupId.json[0].name is search ("{{ sntCode | upper }}")
   
 
 - name: Create group for the snt code given
@@ -87,7 +87,7 @@
             "name" : "{{ customerName }} ({{ sntCode | upper }})"
           }
   #when: (compDetails.json.content.hardwareKey | length != 0) or (groupId.json.id == 0)
-  when: groupId.json.id == 0
+  when: groupId.json[0].id == 0
   register: createGroup
 
 - debug:
@@ -119,12 +119,12 @@
           [
             {
               "group": {
-              "id": "{{ groupId.json.id }}"
+              "id": "{{ groupId.json[0].id }}"
               },
               "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
-  when: not groupId.json.name is search("{{ sntCode | upper }}")
+  when: not groupId.json[0].name is search("{{ sntCode | upper }}")
 
 - name: patch group with new id for the snt code given
   uri:
@@ -139,9 +139,9 @@
           [
             {
               "group": {
-              "id": "{{ groupId1.json.id }}"
+              "id": "{{ groupId1[0].json.id }}"
               },
               "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
-  when: groupId1.json.id | length != 0
+  when: groupId1.json[0].id | length != 0
