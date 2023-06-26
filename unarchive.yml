@@ -6,7 +6,7 @@
         url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/job_templates/19/
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
-        method: POST  
+        method: patch  
         body: |-
               {
                 "inventory": "2"
