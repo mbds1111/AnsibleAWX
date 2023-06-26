@@ -66,7 +66,7 @@
 
 - fail:
     msg: "FAILED::Failed to get computer hardware key details."  
-  when: compDetails.json.content.hardwareKey | length == 0
+  when: compDetails.json.content[0].hardwareKey | length == 0
 
 - debug: 
     msg: "host-{{ hostName }} is already part of SEPM group having snt code {{ sntCode }}"
@@ -121,7 +121,7 @@
               "group": {
               "id": "{{ groupId.json.id }}"
               },
-              "hardwareKey": "{{ compDetails.json.content.hardwareKey }}"
+              "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
   when: not groupId.json.name is search("{{ sntCode | upper }}")
@@ -141,7 +141,7 @@
               "group": {
               "id": "{{ groupId1.json.id }}"
               },
-              "hardwareKey": "{{ compDetails.json.content.hardwareKey }}"
+              "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
   when: groupId1.json.id | length != 0
