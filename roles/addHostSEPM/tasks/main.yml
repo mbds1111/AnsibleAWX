@@ -70,7 +70,7 @@
 
 - debug: 
     msg: "host-{{ hostName }} is already part of SEPM group having snt code {{ sntCode }}"
-  when: groupId.json[0].name is search ("{{ sntCode | upper }}")
+  when: groupId.json[0].name is search ( sntCode | upper )
   
 
 - name: Create group for the snt code given
