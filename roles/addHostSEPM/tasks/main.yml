@@ -144,4 +144,5 @@
               "hardwareKey": "{{ compDetails.json.content[0].hardwareKey }}"
             }
           ]
-  when: groupId1.json | length != 0
+  #when: groupId1.json | length != 0
+  when: groupId1 is defined
