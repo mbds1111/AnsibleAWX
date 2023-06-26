@@ -36,12 +36,14 @@
   when: AuthKey.json.token | length != 0
   register: groupId  
 
+- debug: 
+    msg: "{{ groupId }}"  
+
+
 - fail:
     msg: "FAILED::Could not get group details."  
   when: groupId.json | length == 0
 
-- debug: 
-    msg: "{{ groupId }}"  
       
 - name: Get computer details for the snt code given
   uri:
@@ -53,6 +55,10 @@
         Authorization: "{{ ESBAuth }}"
     status_code: 200, 201
   register: compDetails
+
+- debug: 
+    msg: "{{ compDetails }}"  
+
 
 - fail:
     msg: "FAILED::Could not get computer details."  
@@ -66,8 +72,6 @@
     msg: "host-{{ hostName }} is already part of SEPM group having snt code {{ sntCode }}"
   when: groupId.json.name is search ("{{ sntCode | upper }}")
   
-- debug: 
-    msg: "{{ compDetails }}"  
 
 - name: Create group for the snt code given
   uri:
