@@ -39,11 +39,11 @@
         force_basic_auth: yes
         status_code: 201, 200, 400    
         validate_certs: no
-      register: inventoryResponse
+      register: inventoryResponse1
 
     - name: adding host to Windows inventory
       uri:
-       url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryResponse.json.results[0].id }}/hosts/
+       url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryResponse1.json.results[0].id }}/hosts/
        user: "{{ Mirror_UN }}"
        password: "{{ Mirror_PW }}"
        method: POST
@@ -62,18 +62,18 @@
         method: patch  
         body: |-
               {
-                "inventory": "{{ inventoryResponse.json.results[0].id }}"
+                "inventory": "{{ inventoryResponse1.json.results[0].id }}"
 
               }
         body_format: json
         force_basic_auth: yes
         status_code: 201, 200, 400    
         validate_certs: no
-      register: inventoryResponse
+      register: inventoryResponse2
 
     - name: print response
       debug:
-        msg: "{{ inventoryResponse }}"
+        msg: "{{ inventoryResponse2 }}"
 
     - name: run command on target host
       win_command: hostname
