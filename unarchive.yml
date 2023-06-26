@@ -1,6 +1,6 @@
 - name: update template
   hosts: localhost
-- tasks:
+  tasks:
     - name: update inventory details
       uri: 
         url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/job_templates/19/
