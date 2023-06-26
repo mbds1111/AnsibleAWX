@@ -17,7 +17,7 @@
         body: |-
               {
                   "name": "testd_Windows2022",
-                  "description": "{{ sntCode }} Windows 2022 Inventory",
+                  "description": "testd Windows 2022 Inventory",
                   "organization": "1",
                   "variables": "ansible_port: 31457, ansible_winrm_transport: credssp, ansible_connection: winrm, ansible_winrm_scheme: https"
                                 
@@ -31,7 +31,7 @@
 
     - name: check inventory created
       uri: 
-        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/?name={{ sntCode }}_Windows2022
+        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/?name=testd_Windows2022
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
         method: GET  
