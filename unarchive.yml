@@ -92,6 +92,13 @@
 # - name: second play
 #   hosts: "{{ sntCode }}_Windows2022"
 #   tasks: 
+    - name: set variables
+      set_fact:
+         ansible_port: 31457 
+         ansible_winrm_transport: credssp
+         ansible_connection: winrm
+         ansible_winrm_scheme: https
+
     - name: run command on target host
       win_command: hostname
       delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
