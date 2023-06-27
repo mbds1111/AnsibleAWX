@@ -1,0 +1,11 @@
+- name: second play
+  hosts: "{{ hostName }}.{{ sntCode }}.omi.local"
+  tasks: 
+    - name: run command on target host
+      win_command: hostname
+      delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
+      register: cmdoutput
+
+    - name: pring command output
+      debug:
+        msg: "command output is {{ cmdoutput }}"
