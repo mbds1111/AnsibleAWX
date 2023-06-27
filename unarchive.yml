@@ -84,8 +84,13 @@
     # - name: wait for 30 seconds after inventory update
     #   pause: 
     #     minutes: 1
+    - name: prepare target host list
+      group_by:
+        key: "{{ sntCode }}_Windows2022"
+
+
 - name: second play
-  hosts: "{{ hostName }}.{{ sntCode }}.omi.local"
+  hosts: "{{ sntCode }}_Windows2022"
   tasks: 
     - name: run command on target host
       win_command: hostname
