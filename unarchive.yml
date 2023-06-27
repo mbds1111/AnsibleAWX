@@ -30,12 +30,11 @@
                   "name": "testd_Windows2022",
                   "description": "testd Windows 2022 Inventory",
                   "organization": "1",
-                  "variables": '{
-                                  "ansible_port": "31457",
-                                  "ansible_winrm_transport": "credssp",
-                                  "ansible_connection": "winrm",
-                                  "ansible_winrm_scheme": "https"
-                                }'
+                  "variables": "ansible_port: 31457
+                                ansible_winrm_transport: credssp
+                                ansible_connection: winrm
+                                ansible_winrm_scheme: https
+                                "
               }
         body_format: json
         force_basic_auth: yes
