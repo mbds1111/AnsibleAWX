@@ -62,7 +62,7 @@
       
     - name: update inventory details
       uri: 
-        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/job_templates/19/
+        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/job_templates/27/
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
         method: patch  
