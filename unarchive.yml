@@ -58,7 +58,7 @@
        status_code: 201, 200, 400
        body_format: json
        validate_certs: no
-      when: "{{ inventoryResponse.json.results[0].id }} != 0"
+      when: "{{ inventoryResponse1.json.results[0].id }} != 0"
       
     - name: update inventory details
       uri: 
