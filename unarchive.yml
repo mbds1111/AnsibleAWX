@@ -83,7 +83,7 @@
 
     - name: wait for 30 seconds after inventory update
       pause: 
-        minute: 1
+        minutes: 1
         
     - name: run command on target host
       win_command: hostname
