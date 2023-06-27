@@ -85,7 +85,7 @@
     #   pause: 
     #     minutes: 1
 - name: second play
-  hosts: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
+  hosts: "{{ hostName }}.{{ sntCode }}..omi.local"
   tasks: 
     - name: run command on target host
       win_command: hostname
