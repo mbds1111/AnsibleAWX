@@ -81,15 +81,15 @@
       debug:
         msg: "{{ inventoryResponse2 }}"
 
-    - name: wait for 30 seconds after inventory update
-      pause: 
-        minutes: 1
-        
-    - name: run command on target host
-      win_command: hostname
-      delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
-      register: cmdoutput
+    # - name: wait for 30 seconds after inventory update
+    #   pause: 
+    #     minutes: 1
 
-    - name: pring command output
-      debug:
-        msg: "command output is {{ cmdoutput }}"
+- name: run command on target host
+  win_command: hostname
+  delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
+  register: cmdoutput
+
+- name: pring command output
+  debug:
+    msg: "command output is {{ cmdoutput }}"
