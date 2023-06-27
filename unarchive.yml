@@ -85,11 +85,11 @@
     #   pause: 
     #     minutes: 1
 - name: second play
-  hosts: localhost
+  hosts: "{{ sntCode }}_Windows22"
   tasks: 
     - name: run command on target host
       win_command: hostname
-      delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
+      #delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
       register: cmdoutput
 
     - name: pring command output
