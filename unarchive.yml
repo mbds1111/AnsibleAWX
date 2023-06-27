@@ -10,11 +10,12 @@
 
     - set_fact:
         inventoryVars: |
-                        ansible_port: 31457
-                        ansible_winrm_transport: credssp 
-                        ansible_connection: winrm 
-                        ansible_winrm_scheme: https   
-                        
+                        {
+                          ansible_port: 31457
+                          ansible_winrm_transport: credssp 
+                          ansible_connection: winrm 
+                          ansible_winrm_scheme: https   
+                        }
     - debug:
         msg: "{{ inventoryVars }}"                             
 
