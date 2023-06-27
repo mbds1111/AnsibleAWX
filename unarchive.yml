@@ -85,7 +85,7 @@
     #   pause: 
     #     minutes: 1
 - name: second play
-  hosts: "{{ sntCode }}_Windows22"
+  hosts: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
   tasks: 
     - name: run command on target host
       win_command: hostname
