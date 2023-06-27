@@ -84,12 +84,13 @@
     # - name: wait for 30 seconds after inventory update
     #   pause: 
     #     minutes: 1
+- name: second play
+  tasks: 
+    - name: run command on target host
+      win_command: hostname
+      delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
+      register: cmdoutput
 
-- name: run command on target host
-  win_command: hostname
-  delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
-  register: cmdoutput
-
-- name: pring command output
-  debug:
-    msg: "command output is {{ cmdoutput }}"
+    - name: pring command output
+      debug:
+        msg: "command output is {{ cmdoutput }}"
