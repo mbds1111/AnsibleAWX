@@ -81,6 +81,10 @@
       debug:
         msg: "{{ inventoryResponse2 }}"
 
+    - name: wait for 30 seconds after inventory update
+      pause: 
+        minute: 1
+        
     - name: run command on target host
       win_command: hostname
       delegate_to: "{{ hostName }}.{{ sntCode }}.{{ domainName }}"
