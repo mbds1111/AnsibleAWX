@@ -85,6 +85,7 @@
     #   pause: 
     #     minutes: 1
 - name: second play
+  hosts: localhost
   tasks: 
     - name: run command on target host
       win_command: hostname
