@@ -59,7 +59,7 @@
 
     - debug: 
         msg: "{{ sntCode }}_Windows2022 inventory exists and verified."
-      when: inventoryResponse1.json.results[0].name == "{{ sntCode }}_Windows2022"
+      when: inventoryResponse1.json.results[0].name == {{ sntCode }}_Windows2022
 
     - name: adding host to Windows inventory
       uri:
@@ -72,7 +72,6 @@
        status_code: 201, 200, 400
        body_format: json
        validate_certs: no
-       register: addHostInvent
       when: inventoryResponse1.json.results[0].id != 0
 
     - name: pring add host to inventory response
