@@ -33,15 +33,15 @@
       tags: 
         - always   
 
-    - debug: 
-        msg: "{{ sntCode }}_Windows2022 Inventory is created successfully."
-      when: (inventResponse.json.status == 201) or (inventResponse.json.status == 200)
+    # - debug: 
+    #     msg: "{{ sntCode }}_Windows2022 Inventory is created successfully."
+    #   when: (inventResponse.status == 201) or (inventResponse.status == 200)
 
     - debug: 
         msg: "{{ sntCode }}_Windows2022 Inventory is already exist."
-      when: inventResponse.json.status == 400      
+      when: inventResponse.status == 400      
 
-    - name: check inventory created
+    - name: check inventory 
       uri: 
         url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/?name={{ sntCode }}_Windows2022
         user: "{{ Mirror_UN }}"
@@ -58,7 +58,7 @@
         msg: "{{ inventoryResponse1 }}" 
 
     - debug: 
-        msg: "{{ sntCode }}_Windows2022 inventory is verified."
+        msg: "{{ sntCode }}_Windows2022 inventory exists and verified."
       when: inventoryResponse1.json.results[0].name == {{ sntCode }}_Windows2022
 
     - name: adding host to Windows inventory
