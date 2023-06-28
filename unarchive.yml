@@ -59,7 +59,7 @@
 
     - debug: 
         msg: "{{ sntCode }}_Windows2022 inventory exists and verified."
-      when: inventoryResponse1.json.results[0].name == {{ sntCode }}_Windows2022
+      when: inventoryResponse1.json.results[0].name == "{{ sntCode }}_Windows2022"
 
     - name: adding host to Windows inventory
       uri:
