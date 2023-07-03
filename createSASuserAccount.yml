@@ -14,7 +14,8 @@
         msg: "Target host: {{ fqdn }}"
       tags:
         - always
-    - name: check and add host to Windows2022 inventory
+        
+    - name: add host to Windows2022 inventory
       uri:
        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryID }}/hosts/
        user: "{{ Mirror_UN }}"
@@ -27,9 +28,11 @@
        validate_certs: no
       register: addHost
 
-    - name: print check and add host to inventory result
+    - name: print add host to inventory result
       debug: 
         msg: "{{ addHost }}"
+      tags:
+        - never 
 
     - name: create user on target host
       win_user: 
