@@ -10,7 +10,25 @@
     - debug:
         msg: "Target host: {{ fqdn }}"
 
+    - name: add host to SAS Account inventory
+      uri:
+       url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryID }}/hosts/
+       user: "{{ Mirror_UN }}"
+       password: "{{ Mirror_PW }}"
+       method: POST
+       body: '{ "name" : "{{ fqdn }}" }'
+       force_basic_auth: yes
+       status_code: 201, 200, 400
+       body_format: json
+       validate_certs: no
+      register: addHost
 
+    - name: print add host to inventory result
+      debug: 
+        msg: "{{ addHost }}"
+      tags:
+        - never 
+        
     - name: delete other user
       win_user:  
         name: "sas-{{ sasUserName }}"
