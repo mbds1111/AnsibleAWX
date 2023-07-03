@@ -15,7 +15,7 @@
       tags:
         - always
         
-    - name: add host to Windows2022 inventory
+    - name: add host to SAS Account inventory
       uri:
        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryID }}/hosts/
        user: "{{ Mirror_UN }}"
