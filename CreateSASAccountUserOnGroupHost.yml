@@ -1,0 +1,34 @@
+- name: Create SAS user account
+  hosts: "{{ sntCode }}"
+  tasks:
+    - name: Get username signed in to AWX
+      debug:
+        msg: "{{ awx_user_name }}"
+
+    - name: create user on target host
+      win_user: 
+        name: "sas-{{ awx_user_name }}"
+        password: "{{ sas_Usr_Pwd }}"
+        update_password: always
+        description: "Sungard User"
+        password_expired: no 
+        state: present
+        groups: "Users,Administrators,Remote Desktop Users"
+      register: userOut
+
+    - name: print userOut result
+      debug: 
+        msg: "{{ userOut }}"
+      tags:
+        - never
+        
+    #- name: setting {{ userOut.name }} 
+    - debug:
+        msg: "{{ userOut.name }} has been setup successfully."
+      when: userOut.changed == true
+
+    #- name:  the username exists already
+    - debug:
+        msg: "{{ userOut.name }} already exists"
+      when: userOut.changed == false
+        
