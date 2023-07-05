@@ -1,0 +1,47 @@
+- name: delete SAS user account
+  hosts: "{{ sntCode }}"
+
+  tasks:
+    - name: delete other user
+      win_user:  
+        name: "sas-{{ sasUserName }}"
+        state: absent
+      when: sasUserName | length != 0
+      register: userOut
+
+    - name: print userOut result
+      debug: 
+        msg: "{{ userOut }}"
+      tags: 
+        - never  
+
+    #- name: Print the username deleted
+    - debug:
+        msg: "{{ userOut.name }} has been deleted successfully."
+      when: userOut.changed == true
+
+    - debug:
+        msg: "{{ userOut.name }} does not exist."
+      when: ('msg' in userOut) and ('not found' in userOut.msg)
+
+    - name: delete OAMP user
+      win_user: 
+        name: "sas-{{ awx_user_name }}"
+        state: absent
+      when: sasUserName | length == 0
+      register: userOut1
+
+    - name: print userOut1 result
+      debug: 
+        msg: "{{ userOut1 }}"
+      tags: 
+        - never
+
+    #- name: Print the username deleted
+    - debug:
+        msg: "{{ userOut1.name }} has been deleted successfully."
+      when: userOut1.changed == true
+
+    - debug:
+        msg: "{{ userOut1.name }} does not exist."
+      when: ('msg' in userOut1) and ('not found' in userOut1.msg)
