@@ -1,64 +1,47 @@
-- name: Create SAS user account
+- name: delete SAS user account
   hosts: "{{ sntCode }}"
+
   tasks:
-    - name: Get username signed in to AWX
-      debug:
-        msg: "{{ awx_user_name }}"
-
-    # - name: set host fqdn variable
-    #   set_fact: 
-    #     fqdn: "{{ hostName }}.{{sntCode}}.{{ domainName }}" 
-
-    # #- name: print fqdn
-    # - debug:
-    #     msg: "Target host: {{ fqdn }}"
-    #   tags:
-    #     - always
-        
-    # - name: add host to SAS Account inventory
-    #   uri:
-    #    url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/inventories/{{ inventoryID }}/hosts/
-    #    user: "{{ Mirror_UN }}"
-    #    password: "{{ Mirror_PW }}"
-    #    method: POST
-    #    body: '{ "name" : "{{ fqdn }}" }'
-    #    force_basic_auth: yes
-    #    status_code: 201, 200, 400
-    #    body_format: json
-    #    validate_certs: no
-    #   register: addHost
-
-    # - name: print add host to inventory result
-    #   debug: 
-    #     msg: "{{ addHost }}"
-    #   tags:
-    #     - never 
-
-    - name: create user on target host
-      win_user: 
-        name: "sas-{{ awx_user_name }}"
-        password: "{{ sas_Usr_Pwd }}"
-        update_password: always
-        description: "Sungard User"
-        password_expired: no 
-        state: present
-        groups: "Users,Administrators,Remote Desktop Users"
-      #delegate_to: "{{ fqdn }}" 
+    - name: delete other user
+      win_user:  
+        name: "sas-{{ sasUserName }}"
+        state: absent
+      when: sasUserName | length != 0
       register: userOut
 
     - name: print userOut result
       debug: 
         msg: "{{ userOut }}"
-      tags:
-        - never
-        
-    #- name: setting {{ userOut.name }} 
+      tags: 
+        - never  
+
+    #- name: Print the username deleted
     - debug:
-        msg: "{{ userOut.name }} has been setup successfully."
+        msg: "{{ userOut.name }} has been deleted successfully."
       when: userOut.changed == true
 
-    #- name:  the username exists already
     - debug:
-        msg: "{{ userOut.name }} already exists"
-      when: userOut.changed == false
-        
+        msg: "{{ userOut.name }} does not exist."
+      when: ('msg' in userOut) and ('not found' in userOut.msg)
+
+    - name: delete OAMP user
+      win_user: 
+        name: "sas-{{ awx_user_name }}"
+        state: absent
+      when: sasUserName | length == 0
+      register: userOut1
+
+    - name: print userOut1 result
+      debug: 
+        msg: "{{ userOut1 }}"
+      tags: 
+        - never
+
+    #- name: Print the username deleted
+    - debug:
+        msg: "{{ userOut1.name }} has been deleted successfully."
+      when: userOut1.changed == true
+
+    - debug:
+        msg: "{{ userOut1.name }} does not exist."
+      when: ('msg' in userOut1) and ('not found' in userOut1.msg)
