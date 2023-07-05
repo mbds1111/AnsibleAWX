@@ -22,7 +22,7 @@
         user: "{{ Mirror_UN }}"
         password: "{{ Mirror_PW }}"
         method: POST
-        body: '{ "name" : "{{ sntCode }}", "description": "SNT Code: {{ sntCode }}", "inventory": "{{ inventId }}"  }'
+        body: '{ "name" : "{{ sntCode }}", "description": "SNT Code: {{ sntCode }}", "inventory": "{{ inventoryID }}"  }'
         force_basic_auth: yes
         status_code: 201, 200, 400
         body_format: json
