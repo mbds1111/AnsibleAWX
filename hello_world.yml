@@ -1,47 +1,49 @@
-- name: delete SAS user account
-  hosts: "{{ sntCode }}"
-
+- name: Create SAS user account
+  hosts: localhost
   tasks:
-    - name: delete other user
-      win_user:  
-        name: "sas-{{ sasUserName }}"
-        state: absent
-      when: sasUserName | length != 0
-      register: userOut
+    # - name: Get username signed in to AWX
+    #   debug:
+    #     msg: "{{ awx_user_name }}"
 
-    - name: print userOut result
+    # - name: set host fqdn variable
+    #   set_fact: 
+    #     fqdn: "{{ hostName }}.{{sntCode}}.{{ domainName }}" 
+
+    # #- name: print fqdn
+    # - debug:
+    #     msg: "Target host: {{ fqdn }}"
+    #   tags:
+    #     - always
+        
+    
+    - name: create {{ sntCode }} group
+      uri:
+        url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/groups/
+        user: "{{ Mirror_UN }}"
+        password: "{{ Mirror_PW }}"
+        method: POST
+        body: '{ "name" : "{{ sntCode }}", "description": "SNT Code: {{ sntCode }}", "inventory": "{{ inventId }}"  }'
+        force_basic_auth: yes
+        status_code: 201, 200, 400
+        body_format: json
+        validate_certs: no
+      register: createGroup
+
+    - name: print create group response
       debug: 
-        msg: "{{ userOut }}"
-      tags: 
-        - never  
+        msg: "{{ createGroup }}"
+      tags:
+        - always
 
-    #- name: Print the username deleted
-    - debug:
-        msg: "{{ userOut.name }} has been deleted successfully."
-      when: userOut.changed == true
-
-    - debug:
-        msg: "{{ userOut.name }} does not exist."
-      when: ('msg' in userOut) and ('not found' in userOut.msg)
-
-    - name: delete OAMP user
-      win_user: 
-        name: "sas-{{ awx_user_name }}"
-        state: absent
-      when: sasUserName | length == 0
-      register: userOut1
-
-    - name: print userOut1 result
-      debug: 
-        msg: "{{ userOut1 }}"
-      tags: 
-        - never
-
-    #- name: Print the username deleted
-    - debug:
-        msg: "{{ userOut1.name }} has been deleted successfully."
-      when: userOut1.changed == true
-
-    - debug:
-        msg: "{{ userOut1.name }} does not exist."
-      when: ('msg' in userOut1) and ('not found' in userOut1.msg)
+    # - name: add {{ fqdn }} host to {{ sntCode }} group
+    #   uri:
+    #     url: http://bt-c9-stream-tmp.oamp.sgns.net/api/v2/groups/{{ createGroup.json.id }}/hosts/
+    #     user: "{{ Mirror_UN }}"
+    #     password: "{{ Mirror_PW }}"
+    #     method: POST
+    #     body: '{ "name": "{{ fqdn }}" }'
+    #     force_basic_auth: yes
+    #     status_code: 201, 200, 400
+    #     body_format: json
+    #     validate_certs: no
+    #   when: createGroup.json | length !=0
