@@ -1,5 +1,5 @@
 - name: Create SAS user account
-  hosts: sahd
+  hosts: "{{ sntCode }}"
   tasks:
     - name: Get username signed in to AWX
       debug:
