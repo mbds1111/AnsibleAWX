@@ -1,0 +1,14 @@
+- name: test etc/hosts
+  hosts: "{{ hostName }}"
+  tasks:
+    - name: run shell script
+      shell: |
+        CHECK1=$(grep -i -c "216.203.5.152 omi-bbc.tools.sgns.net" /etc/hosts)
+        if [ "$CHECK1" == "0" ]; then
+             echo -e "# SungardAS OMI VIP Address" >> /etc/hosts  && echo -e "216.203.5.152 omi-bbc.tools.sgns.net" >> /etc/hosts && echo "INFO::OMI-VIP Added Successfully!"
+        else echo "INFO::OMI-VIP Found, No Update Needed"
+        fi
+      register: scriptOutput
+      
+    - debug:
+        msg: "{{ scriptOutput }}"  
