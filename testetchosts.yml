@@ -11,4 +11,4 @@
       register: scriptOutput
       
     - debug:
-        msg: "{{ scriptOutput }}"  
+        msg: "{{ scriptOutput.stdout }}"  
